@@ -18,8 +18,7 @@ public class onOreBlockBreak implements Listener {
     public void playerOreBlockBreakEvent(BlockBreakEvent e)  {
         breakingFunctions runnable = new breakingFunctions();
         Player p = e.getPlayer();
-        Block b = e.getBlock();
-        Block blocksave = e.getBlock();
+        Block b = e.getBlock();;
         Random random = new Random();
         int y = random.nextInt(10);
         int x = random.nextInt(3);

@@ -42,6 +42,8 @@ public class onBlockBreak implements Listener {
                 String[] split = finalOrigblock.split("_", 0);
                 String block = split[0];
                 if(x == 0) {x=1;}
+
+
                 switch (block) {
                     case "COAL":
                         runnable.blockChecks(p, finalOrigblock, b, y, split, x, 1, true);
