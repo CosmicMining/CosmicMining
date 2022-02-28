@@ -1,24 +1,18 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
 import net.goldmc.cosmicmining.Database.loadPlayerData;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Dye;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-import sun.security.krb5.internal.KdcErrException;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class onBlockBreak implements Listener {
@@ -41,42 +35,30 @@ public class onBlockBreak implements Listener {
                 String finalOrigblock = origblock;
                 String[] split = finalOrigblock.split("_", 0);
                 String block = split[0];
-                if(x == 0) {x=1;}
-
-
-                switch (block) {
-                    case "COAL":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 1, true);
-                        break;
-                    case "IRON":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 2, true);
-                        break;
-                    case "LAPIS":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 3, true);
-                        break;
-                    case "REDSTONE":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 4, true);
-                    case "GOLD":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 5, true);
-                        break;
-                    case "DIAMOND":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 6, true);
-                        break;
-                    case "EMERALD":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 7, true);
-                        break;
-                    default:
-                        System.out.println("NOT FOUND!");
+                if (x == 0) {
+                    x = 1;
                 }
 
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                e.setCancelled(true);
+                Map<String, Integer> hm
+                        = new HashMap<String, Integer>();
+                hm.put("COAL", 1);
+                hm.put("IRON", 2);
+                hm.put("LAPIS", 3);
+                hm.put("REDSTONE", 4);
+                hm.put("GOLD", 5);
+                hm.put("DIAMOND", 6);
+                hm.put("EMERALD", 7);
+                for (Map.Entry<String, Integer> entry : hm.entrySet()) {
+                    // if give value is equal to value from entry
+                    // print the corresponding key
+                    if (Objects.equals(entry.getKey(), split[0])) {
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, entry.getValue(), true);
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999, 255, false, false), true);
+                        e.setCancelled(true);
+                        break;
+                    }
+                }
             }
         }
     }
-
-
-
-
-
 }

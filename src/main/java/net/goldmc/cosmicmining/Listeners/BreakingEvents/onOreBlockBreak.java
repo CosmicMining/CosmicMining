@@ -11,6 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class onOreBlockBreak implements Listener {
@@ -29,36 +32,30 @@ public class onOreBlockBreak implements Listener {
                 String finalOrigblock = origblock;
                 String[] split = finalOrigblock.split("_", 0);
                 String block = split[0];
-                if(x == 0) {x=1;}
-
-                switch (block) {
-                    case "COAL":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 1, false);
-                        break;
-                    case "IRON":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 2, false);
-                        break;
-                    case "LAPIS":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 3, false);
-                        break;
-                    case "REDSTONE":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 4, false);
-                    case "GOLD":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 5, false);
-                        break;
-                    case "DIAMOND":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 6, false);
-                        break;
-                    case "EMERALD":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 7, false);
-                        break;
-                    default:
-                        e.setCancelled(true);
-                        System.out.println("NOT FOUND!");
+                if (x == 0) {
+                    x = 1;
                 }
 
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                e.setCancelled(true);
+                Map<String, Integer> hm
+                        = new HashMap<String, Integer>();
+                hm.put("COAL", 1);
+                hm.put("IRON", 2);
+                hm.put("LAPIS", 3);
+                hm.put("REDSTONE", 4);
+                hm.put("GOLD", 5);
+                hm.put("DIAMOND", 6);
+                hm.put("EMERALD", 7);
+                for (Map.Entry<String, Integer> entry : hm.entrySet()) {
+                    // if give value is equal to value from entry
+                    // print the corresponding key
+                    if (Objects.equals(entry.getKey(), split[0])) {
+                        boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), entry.getValue());
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, entry.getValue(), false);
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999, 255, false, false), true);
+                        e.setCancelled(true);
+                        break;
+                    }
+                }
             }
         }
     }
