@@ -34,24 +34,24 @@ public class onOreBlockBreak implements Listener {
 
                 switch (block) {
                     case "COAL":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 1);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 1, false);
                         break;
                     case "IRON":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 2);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 2, false);
                         break;
                     case "LAPIS":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 3);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 3, false);
                         break;
                     case "REDSTONE":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 4);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 4, false);
                     case "GOLD":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 5);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 5, false);
                         break;
                     case "DIAMOND":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 6);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 6, false);
                         break;
                     case "EMERALD":
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 7);
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 7, false);
                         break;
                     default:
                         e.setCancelled(true);

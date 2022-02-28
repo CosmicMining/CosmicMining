@@ -31,7 +31,7 @@ public class onBlockBreak implements Listener {
         Block blocksave = e.getBlock();
         Random random = new Random();
         int y = random.nextInt(10);
-
+        breakingFunctions runnable = new breakingFunctions();
         String origblock = b.getType().toString();
         int x = random.nextInt(3);
 
@@ -44,169 +44,24 @@ public class onBlockBreak implements Listener {
                 if(x == 0) {x=1;}
                 switch (block) {
                     case "COAL":
-                        boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), 1);
-                        ItemStack item = new ItemStack(Material.COAL);
-                        if(canBreak) {
-                            item = new ItemStack(Material.COAL);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                        } else {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                            b.setType(Material.getMaterial(finalOrigblock));
-                        }
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 1, true);
                         break;
                     case "IRON":
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 2);
-                        if(canBreak) {
-                            item = new ItemStack(Material.IRON_INGOT);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                        } else {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                            b.setType(Material.getMaterial(finalOrigblock));
-                        }
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 2, true);
                         break;
                     case "LAPIS":
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 3);
-                        if(canBreak) {
-                            Dye l = new Dye();
-                            l.setColor(DyeColor.BLUE);
-                            item = l.toItemStack(x);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                        } else {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                            b.setType(Material.getMaterial(finalOrigblock));
-                        }
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 3, true);
                         break;
                     case "REDSTONE":
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 2);
-                        if(canBreak) {
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                        } else {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                            b.setType(Material.getMaterial(finalOrigblock));
-                            e.setExpToDrop(0);
-                            e.setCancelled(true);
-                        }
-                        break;
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 4, true);
                     case "GOLD":
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 5);
-                        if(canBreak) {
-                            item = new ItemStack(Material.GOLD_INGOT);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                        } else {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                            b.setType(Material.getMaterial(finalOrigblock));
-                        }
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 5, true);
                         break;
                     case "DIAMOND":
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 6);
-                        if(canBreak) {
-                            item = new ItemStack(Material.DIAMOND);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                        } else {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                            b.setType(Material.getMaterial(finalOrigblock));
-                        }
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 6, true);
                         break;
                     case "EMERALD":
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 7);
-                        if(canBreak) {
-                            item = new ItemStack(Material.EMERALD);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if(y!=5) {
-                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
-                                    } else {
-                                        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
-                                    }
-                                }
-                            }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-
-                        } else {
-                            b.setType(Material.getMaterial(finalOrigblock));
-                        }
+                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, 7, true);
                         break;
                     default:
                         System.out.println("NOT FOUND!");
