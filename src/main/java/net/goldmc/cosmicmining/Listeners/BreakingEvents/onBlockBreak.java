@@ -116,29 +116,24 @@ public class onBlockBreak implements Listener {
                         }
                         break;
                     case "REDSTONE":
-                        e.setCancelled(true);
-                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 4);
+                        canBreak = loadPlayerData.canBreak(p.getUniqueId(), 2);
                         if(canBreak) {
-                            e.setCancelled(true);
-                            item = new ItemStack(Material.REDSTONE);
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
                             b.setType(Material.STONE);
+
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     if(y!=5) {
-                                        b.setType(Material.REDSTONE_ORE);
-                                        e.setCancelled(true);
+                                        b.setType(Material.getMaterial(split[0] + "_ORE"));
                                     } else {
-                                        b.setType(Material.REDSTONE_BLOCK);
-                                        e.setCancelled(true);
+                                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
                                     }
                                 }
                             }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
                         } else {
                             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
                             b.setType(Material.getMaterial(finalOrigblock));
+                            e.setExpToDrop(0);
                             e.setCancelled(true);
                         }
                         break;
