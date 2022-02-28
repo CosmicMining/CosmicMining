@@ -29,7 +29,7 @@ public final class CosmicMining extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new onOreBlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new onBlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new onPlayerInteract(), this);
-        Bukkit.getPluginManager().registerEvents(new onPlayerInteractWithOre(), this);
+        Bukkit.getPluginManager().registerEvents(new onPlayerInteractWithOreRewrite(), this);
     }
 
 
