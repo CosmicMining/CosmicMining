@@ -5,8 +5,8 @@ import org.apache.commons.lang.math.IntRange;
 
 import java.util.UUID;
 
-public class loadPlayerData {
-    public static int[] loadPlayerData(UUID uuid) {
+public class LoadPlayerData {
+    public int[] loadPlayerData(UUID uuid) {
         int level = Config.getCustomConfig3().getInt("Levels." + uuid.toString() + ".level");
         int xp = Config.getCustomConfig3().getInt("Levels." + uuid.toString() + ".xp");
         int[] data = new int[3];
@@ -46,7 +46,7 @@ public class loadPlayerData {
             return data;
         }
     }
-    public static boolean canBreak(UUID uuid, int blockLevel) {
+    public boolean canBreak(UUID uuid, int blockLevel) {
         boolean canBreak;
         int[] data = loadPlayerData(uuid);
         int breaklevel = data[2];

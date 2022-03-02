@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class onPlayerInteract implements Listener {
+public class OnPlayerInteract implements Listener {
     @EventHandler
     public void playerInteractEvent(PlayerInteractEvent e) {
         Player p = e.getPlayer();

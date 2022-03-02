@@ -1,13 +1,11 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
-import net.goldmc.cosmicmining.Database.loadPlayerData;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -16,28 +14,26 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-public class onOreBlockBreak implements Listener {
+public class OnBlockBreak implements Listener {
+    // When you break the block version of an ore
+
+    Map<String, Integer> hm
+            = new HashMap<String, Integer>();
+
     @EventHandler
-    public void playerOreBlockBreakEvent(BlockBreakEvent e)  {
-        breakingFunctions runnable = new breakingFunctions();
+    public void playerBlockBreakEvent(BlockBreakEvent e) throws InterruptedException {
         Player p = e.getPlayer();
-        Block b = e.getBlock();;
-        Random random = new Random();
-        int y = random.nextInt(10);
-        int x = random.nextInt(3);
-        String origblock = b.getType().toString();
+
 
         if(p.hasPermission("cosmicmining.minearea")) {
-            if(b.getType()== Material.COAL_ORE || b.getType()==Material.IRON_ORE || b.getType()==Material.LAPIS_ORE ||  b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GOLD_ORE || b.getType()==Material.DIAMOND_ORE || b.getType()==Material.EMERALD_ORE) {
+            Block b = e.getBlock();
+            if(b.getType()==Material.COAL_BLOCK || b.getType()==Material.IRON_BLOCK || b.getType()==Material.LAPIS_BLOCK || b.getType()==Material.REDSTONE_BLOCK || b.getType()==Material.GOLD_BLOCK || b.getType()==Material.DIAMOND_BLOCK || b.getType()==Material.EMERALD_BLOCK) {
+                Random random = new Random();
+                BreakingFunctions runnable = new BreakingFunctions();
+                String origblock = b.getType().toString();
                 String finalOrigblock = origblock;
                 String[] split = finalOrigblock.split("_", 0);
-                String block = split[0];
-                if (x == 0) {
-                    x = 1;
-                }
 
-                Map<String, Integer> hm
-                        = new HashMap<String, Integer>();
                 hm.put("COAL", 1);
                 hm.put("IRON", 2);
                 hm.put("LAPIS", 3);
@@ -49,8 +45,7 @@ public class onOreBlockBreak implements Listener {
                     // if give value is equal to value from entry
                     // print the corresponding key
                     if (Objects.equals(entry.getKey(), split[0])) {
-                        boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), entry.getValue());
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, entry.getValue(), false);
+                        runnable.blockChecks(p, finalOrigblock, b, entry.getValue(), true);
                         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999, 255, false, false), true);
                         e.setCancelled(true);
                         break;
@@ -59,5 +54,4 @@ public class onOreBlockBreak implements Listener {
             }
         }
     }
-
 }

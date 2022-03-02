@@ -8,7 +8,7 @@ import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import net.goldmc.cosmicmining.Listeners.onJoin;
+import net.goldmc.cosmicmining.Listeners.OnJoin;
 
 public final class CosmicMining extends JavaPlugin {
 
@@ -25,11 +25,11 @@ public final class CosmicMining extends JavaPlugin {
     }
 
     public void createListeners() {
-        Bukkit.getPluginManager().registerEvents(new onJoin(), this);
-        Bukkit.getPluginManager().registerEvents(new onOreBlockBreak(), this);
-        Bukkit.getPluginManager().registerEvents(new onBlockBreak(), this);
-        Bukkit.getPluginManager().registerEvents(new onPlayerInteract(), this);
-        Bukkit.getPluginManager().registerEvents(new onPlayerInteractWithOre(), this);
+        Bukkit.getPluginManager().registerEvents(new OnJoin(), this);
+        Bukkit.getPluginManager().registerEvents(new OnOreBlockBreak(), this);
+        Bukkit.getPluginManager().registerEvents(new OnBlockBreak(), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerInteract(), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerInteractWithOre(), this);
     }
 
 
@@ -41,7 +41,7 @@ public final class CosmicMining extends JavaPlugin {
         Config.createCustomConfig2();
         Config.createCustomConfig3();
         System.out.println("CosmicMining Started up");
-        this.getCommand("givexp").setExecutor(new setXp());
+        this.getCommand("setxp").setExecutor(new setXp());
         this.getCommand("setlevel").setExecutor(new setLevel());
         createListeners();
     }

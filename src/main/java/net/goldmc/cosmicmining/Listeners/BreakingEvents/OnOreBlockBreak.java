@@ -1,6 +1,5 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
-import net.goldmc.cosmicmining.Database.loadPlayerData;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -15,23 +14,23 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-public class onBlockBreak implements Listener {
-    // When you break the block version of an ore
+public class OnOreBlockBreak implements Listener {
+
+    Map<String, Integer> hm
+            = new HashMap<String, Integer>();
 
     @EventHandler
-    public void playerBlockBreakEvent(BlockBreakEvent e) throws InterruptedException {
-        Player p = e.getPlayer();
+    public void playerOreBlockBreakEvent(BlockBreakEvent e)  {
         Block b = e.getBlock();
-        Block blocksave = e.getBlock();
-        Random random = new Random();
-        int y = random.nextInt(10);
-        breakingFunctions runnable = new breakingFunctions();
-        String origblock = b.getType().toString();
-        int x = random.nextInt(3);
-
+        Player p = e.getPlayer();
 
         if(p.hasPermission("cosmicmining.minearea")) {
-            if(b.getType()==Material.COAL_BLOCK || b.getType()==Material.IRON_BLOCK || b.getType()==Material.LAPIS_BLOCK || b.getType()==Material.REDSTONE_BLOCK || b.getType()==Material.GOLD_BLOCK || b.getType()==Material.DIAMOND_BLOCK || b.getType()==Material.EMERALD_BLOCK) {
+            if(b.getType()== Material.COAL_ORE || b.getType()==Material.IRON_ORE || b.getType()==Material.LAPIS_ORE ||  b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GOLD_ORE || b.getType()==Material.DIAMOND_ORE || b.getType()==Material.EMERALD_ORE) {
+                BreakingFunctions runnable = new BreakingFunctions();
+                Random random = new Random();
+                int y = random.nextInt(10);
+                int x = random.nextInt(3);
+                String origblock = b.getType().toString();
                 String finalOrigblock = origblock;
                 String[] split = finalOrigblock.split("_", 0);
                 String block = split[0];
@@ -39,8 +38,7 @@ public class onBlockBreak implements Listener {
                     x = 1;
                 }
 
-                Map<String, Integer> hm
-                        = new HashMap<String, Integer>();
+
                 hm.put("COAL", 1);
                 hm.put("IRON", 2);
                 hm.put("LAPIS", 3);
@@ -52,7 +50,7 @@ public class onBlockBreak implements Listener {
                     // if give value is equal to value from entry
                     // print the corresponding key
                     if (Objects.equals(entry.getKey(), split[0])) {
-                        runnable.blockChecks(p, finalOrigblock, b, y, split, x, entry.getValue(), true);
+                        runnable.blockChecks(p, finalOrigblock, b, entry.getValue(), false);
                         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999, 255, false, false), true);
                         e.setCancelled(true);
                         break;
@@ -61,4 +59,5 @@ public class onBlockBreak implements Listener {
             }
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
-import net.goldmc.cosmicmining.Database.loadPlayerData;
+import net.goldmc.cosmicmining.Database.LoadPlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -12,11 +12,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class breakingFunctions {
+
+public class BreakingFunctions {
+
+
     public void startRunnable(int y, Block b, String[] split) {
         new BukkitRunnable() {
             @Override
@@ -29,7 +32,8 @@ public class breakingFunctions {
             }
         }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
     }
-    public void blockChecks(Player p,String finalOrigblock, Block b, int y, String[] split, int x, int blocklevel, boolean isoreblock) {
+    public void blockChecks(Player p, String finalOrigblock, Block b, int blocklevel, boolean isoreblock) {
+        LoadPlayerData loadPlayerData = new LoadPlayerData();
         Map<Integer, String> hm
                 = new HashMap<Integer, String>();
         hm.put(1, "COAL");
@@ -39,26 +43,18 @@ public class breakingFunctions {
         hm.put(5, "GOLD_INGOT");
         hm.put(6, "DIAMOND");
         hm.put(7, "EMERALD");
+        int y = ThreadLocalRandom.current().nextInt(0, 10);
+        int x = ThreadLocalRandom.current().nextInt(1, 3);
+        String[] split = finalOrigblock.split("_", 0);
         boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), blocklevel);
-        ItemStack item;
-        if(!(isoreblock)) {
-            if(canBreak) {
-                item = new ItemStack(Material.getMaterial(finalOrigblock));
-                item.setAmount(x);
-                p.getInventory().addItem(item);
-                b.setType(Material.STONE);
-                startRunnable(y, b, split);
-            } else {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                b.setType(Material.getMaterial(finalOrigblock));
-            }
-        } else {
-            if(canBreak) {
+        if(canBreak) {
+            if(isoreblock) {
                 for(Map.Entry<Integer, String> entry: hm.entrySet()) {
                     // if give value is equal to value from entry
                     // print the corresponding key
                     if(entry.getKey() == blocklevel) {
                         if(blocklevel != 3) {
+                            ItemStack item;
                             item = new ItemStack(Material.getMaterial(entry.getValue()));
                             item.setAmount(x);
                             p.getInventory().addItem(item);
@@ -66,19 +62,28 @@ public class breakingFunctions {
                             startRunnable(y, b, split);
                             break;
                         } else {
+                            ItemStack item;
                             Dye l = new Dye();
                             l.setColor(DyeColor.BLUE);
                             item = l.toItemStack(x);
                             item.setAmount(x);
                             p.getInventory().addItem(item);
                             b.setType(Material.STONE);
+                            startRunnable(y, b, split);
                         }
                     }
                 }
             } else {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
-                b.setType(Material.getMaterial(finalOrigblock));
+                ItemStack item;
+                item = new ItemStack(Material.getMaterial(finalOrigblock));
+                item.setAmount(x);
+                p.getInventory().addItem(item);
+                b.setType(Material.STONE);
+                startRunnable(y, b, split);
             }
+        } else {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
+            b.setType(Material.getMaterial(finalOrigblock));
         }
     }
 }

@@ -10,8 +10,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import java.math.BigInteger;
 import java.util.UUID;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Long.parseLong;
 import static org.bukkit.Bukkit.getOfflinePlayer;
 import static org.bukkit.Bukkit.getPlayer;
 
@@ -22,7 +25,7 @@ public class setXp implements CommandExecutor {
             if(args.length == 2) {
                 if (Bukkit.getOfflinePlayer(UUID.fromString(args[0])) != null) {
                     try {
-                        int xp = Integer.parseInt(args[1]);
+                        long xp = parseLong(args[1]);
                         Player p = getPlayer(UUID.fromString(args[0]));
                         UUID u = UUID.fromString(args[0]);
                         Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", xp);
