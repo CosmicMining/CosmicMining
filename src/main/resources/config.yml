@@ -1,6 +1,8 @@
-database:
-  host: localhost # host of your database
-  port: 3306 # default port for MariaDB and MySQL
-  database: cosmicsandbox # name of your database. A database server can contain multiple databases
-  user: root
-  password: 1272
+#Xp per block
+Coal: 1
+Iron: 6
+Lapis: 16
+Redstone: 70
+Gold: 253
+Diamond: 1000
+Emerald: 5000
