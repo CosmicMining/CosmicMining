@@ -1,3 +1,8 @@
+
+
+#Right Now this does nothing
+
+
 #Xp per block
 #You currently cannot specify any custom blocks for xp this will be added later
 XpPerBlock:
@@ -16,3 +21,11 @@ RefinedChance: 10
 #DO NOT EDIT THIS IF YOU DO NOT KNOW WHAT YOUR DOING
 CustomXpFormula: false
 XpFormula: 2*3
+#Custom Enchants
+CustomEnchants: true
+#Xp Booster
+XpBoosters: true
+#Xp bottles
+XpBottles: true
+#Mine anywhere (otherwise require CosmicMining.miningarea to mine ores)
+MineAnywhere: false
