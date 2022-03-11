@@ -1,6 +1,7 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
 import net.goldmc.cosmicmining.Database.LoadPlayerData;
+import net.goldmc.cosmicmining.Leveling.XpFunctions;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -34,6 +35,7 @@ public class BreakingFunctions {
     }
     public void blockChecks(Player p, String finalOrigblock, Block b, int blocklevel, boolean isoreblock) {
         LoadPlayerData loadPlayerData = new LoadPlayerData();
+        XpFunctions xpFunctions = new XpFunctions();
         Map<Integer, String> hm
                 = new HashMap<Integer, String>();
         hm.put(1, "COAL");
@@ -59,6 +61,7 @@ public class BreakingFunctions {
                             item.setAmount(x);
                             p.getInventory().addItem(item);
                             b.setType(Material.STONE);
+                            xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
                             break;
                         } else {
@@ -69,6 +72,7 @@ public class BreakingFunctions {
                             item.setAmount(x);
                             p.getInventory().addItem(item);
                             b.setType(Material.STONE);
+                            xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
                         }
                     }
@@ -79,6 +83,7 @@ public class BreakingFunctions {
                 item.setAmount(x);
                 p.getInventory().addItem(item);
                 b.setType(Material.STONE);
+                xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                 startRunnable(y, b, split);
             }
         } else {
