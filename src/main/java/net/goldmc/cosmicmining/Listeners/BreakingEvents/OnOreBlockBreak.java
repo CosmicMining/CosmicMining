@@ -37,7 +37,8 @@ public class OnOreBlockBreak implements Listener {
                 if (x == 0) {
                     x = 1;
                 }
-
+                
+                //TODO Fix Redstone not being stopped
 
                 hm.put("COAL", 1);
                 hm.put("IRON", 2);
