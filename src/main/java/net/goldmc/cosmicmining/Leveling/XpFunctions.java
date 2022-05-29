@@ -39,7 +39,6 @@ public class XpFunctions {
 
         Map<String, Integer> hm
                 = new HashMap<>();
-        System.out.println("Ore Works");
         hm.put("COAL", 1);
         hm.put("IRON", Config.getInt("XpPerBlock.Iron"));
         hm.put("LAPIS", Config.getInt("XpPerBlock.Lapis"));
