@@ -25,7 +25,7 @@ public class OnOreBlockBreak implements Listener {
         Player p = e.getPlayer();
 
         if(p.hasPermission("cosmicmining.minearea")) {
-            if(b.getType()== Material.COAL_ORE || b.getType()==Material.IRON_ORE || b.getType()==Material.LAPIS_ORE ||  b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GOLD_ORE || b.getType()==Material.DIAMOND_ORE || b.getType()==Material.EMERALD_ORE) {
+            if(b.getType()== Material.COAL_ORE || b.getType()==Material.IRON_ORE || b.getType()==Material.LAPIS_ORE ||  b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GLOWING_REDSTONE_ORE || b.getType()==Material.GOLD_ORE || b.getType()==Material.DIAMOND_ORE || b.getType()==Material.EMERALD_ORE) {
                 BreakingFunctions runnable = new BreakingFunctions();
                 Random random = new Random();
                 int y = random.nextInt(10);
@@ -37,13 +37,13 @@ public class OnOreBlockBreak implements Listener {
                 if (x == 0) {
                     x = 1;
                 }
-                
-                //TODO Fix Redstone not being stopped
+
 
                 hm.put("COAL", 1);
                 hm.put("IRON", 2);
                 hm.put("LAPIS", 3);
                 hm.put("REDSTONE", 4);
+                hm.put("GLOWING", 4);
                 hm.put("GOLD", 5);
                 hm.put("DIAMOND", 6);
                 hm.put("EMERALD", 7);

@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -26,9 +27,17 @@ public class BreakingFunctions {
             @Override
             public void run() {
                 if(y!=5) {
-                    b.setType(Material.getMaterial(split[0] + "_ORE"));
+                    if(Objects.equals(split[0], "GLOWING")) {
+                        b.setType(Material.getMaterial(split[1] + "_ORE"));
+                    } else {
+                        b.setType(Material.getMaterial(split[0] + "_ORE"));
+                    }
                 } else {
-                    b.setType(Material.getMaterial(split[0] + "_BLOCK"));
+                    if(Objects.equals(split[0], "GLOWING")) {
+                        b.setType(Material.getMaterial(split[1] + "_BLOCK"));
+                    } else {
+                        b.setType(Material.getMaterial(split[0] + "_BLOCK"));
+                    }
                 }
             }
         }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
@@ -36,28 +45,29 @@ public class BreakingFunctions {
     public void blockChecks(Player p, String finalOrigblock, Block b, int blocklevel, boolean isoreblock) {
         LoadPlayerData loadPlayerData = new LoadPlayerData();
         XpFunctions xpFunctions = new XpFunctions();
-        Map<Integer, String> hm
-                = new HashMap<Integer, String>();
-        hm.put(1, "COAL");
-        hm.put(2, "IRON_INGOT");
-        hm.put(3, "DYE");
-        hm.put(4, "REDSTONE");
-        hm.put(5, "GOLD_INGOT");
-        hm.put(6, "DIAMOND");
-        hm.put(7, "EMERALD");
+        Map<String, Integer> hm
+                = new HashMap<String, Integer>();
+        hm.put("COAL", 1);
+        hm.put("IRON", 2);
+        hm.put("LAPIS", 3);
+        hm.put("REDSTONE", 4);
+        hm.put("GLOWING", 4);
+        hm.put("GOLD", 5);
+        hm.put("DIAMOND", 6);
+        hm.put("EMERALD", 7);
         int y = ThreadLocalRandom.current().nextInt(0, 10);
         int x = ThreadLocalRandom.current().nextInt(1, 3);
         String[] split = finalOrigblock.split("_", 0);
         boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), blocklevel);
         if(canBreak) {
             if(isoreblock) {
-                for(Map.Entry<Integer, String> entry: hm.entrySet()) {
+                for(Map.Entry<String , Integer> entry: hm.entrySet()) {
                     // if give value is equal to value from entry
                     // print the corresponding key
-                    if(entry.getKey() == blocklevel) {
+                    if(entry.getValue() == blocklevel) {
                         if(blocklevel != 3) {
                             ItemStack item;
-                            item = new ItemStack(Material.getMaterial(entry.getValue()));
+                            item = new ItemStack(Material.getMaterial(entry.getKey()));
                             item.setAmount(x);
                             p.getInventory().addItem(item);
                             b.setType(Material.STONE);
@@ -79,10 +89,14 @@ public class BreakingFunctions {
                 }
             } else {
                 ItemStack item;
-                item = new ItemStack(Material.getMaterial(finalOrigblock));
+                b.setType(Material.STONE);
+                if(Objects.equals(split[0], "GLOWING")) {
+                    item = new ItemStack(Material.REDSTONE_ORE);
+                } else {
+                    item = new ItemStack(Material.getMaterial(finalOrigblock));
+                }
                 item.setAmount(x);
                 p.getInventory().addItem(item);
-                b.setType(Material.STONE);
                 xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                 startRunnable(y, b, split);
             }

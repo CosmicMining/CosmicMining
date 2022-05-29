@@ -12,6 +12,7 @@ import org.bukkit.material.Dye;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static java.lang.Float.parseFloat;
@@ -32,24 +33,30 @@ public class XpFunctions {
         return percentage;
     }
 
+
     public int giveXpForOre(UUID u, String blocklevel) {
         FileConfiguration Config = net.goldmc.cosmicmining.Config.Config.getCustomConfig1();
 
         Map<String, Integer> hm
-                = new HashMap<String, Integer>();
-        hm.put("COAL", Config.getInt("XpPerBlock.Coal"));
+                = new HashMap<>();
+        System.out.println("Ore Works");
+        hm.put("COAL", 1);
         hm.put("IRON", Config.getInt("XpPerBlock.Iron"));
         hm.put("LAPIS", Config.getInt("XpPerBlock.Lapis"));
         hm.put("REDSTONE", Config.getInt("XpPerBlock.Redstone"));
         hm.put("GOLD", Config.getInt("XpPerBlock.Gold"));
         hm.put("DIAMOND", Config.getInt("XpPerBlock.Diamond"));
         hm.put("EMERALD", Config.getInt("XpPerBlock.Emerald"));
+
+
+
+
         LoadPlayerData loadPlayerData = new LoadPlayerData();
         int xp = net.goldmc.cosmicmining.Config.Config.getCustomConfig3().getInt("Levels." + Bukkit.getPlayer(u) + ".xp");
         for(Map.Entry<String , Integer> entry: hm.entrySet()) {
             // if give value is equal to value from entry
             // print the corresponding key
-            if(entry.getKey() == blocklevel) {
+            if(Objects.equals(entry.getKey(), blocklevel)) {
                 int sum = xp + entry.getValue();
                 net.goldmc.cosmicmining.Config.Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", sum);
                 net.goldmc.cosmicmining.Config.Config.saveConfig3();
