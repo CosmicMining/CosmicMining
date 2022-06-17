@@ -1,6 +1,7 @@
 package net.goldmc.cosmicmining.Leveling;
 
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.CosmicMining;
 import net.goldmc.cosmicmining.Database.LoadPlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -17,7 +18,6 @@ import java.util.UUID;
 
 import static java.lang.Float.parseFloat;
 import static java.lang.Math.*;
-import static net.goldmc.cosmicmining.Config.Config.getCustomConfig3;
 
 public class XpFunctions {
     public float calculateXp(UUID u) {
@@ -35,7 +35,8 @@ public class XpFunctions {
 
 
     public int giveXpForOre(UUID u, String blocklevel) {
-        FileConfiguration Config = net.goldmc.cosmicmining.Config.Config.getCustomConfig1();
+        CosmicMining plugin = Config.plugin;
+        FileConfiguration Config = plugin.getConfig(); //net.goldmc.cosmicmining.Config.Config.getCustomConfig1();
 
         Map<String, Integer> hm
                 = new HashMap<>();
@@ -51,17 +52,18 @@ public class XpFunctions {
 
 
         LoadPlayerData loadPlayerData = new LoadPlayerData();
-        int xp = net.goldmc.cosmicmining.Config.Config.getCustomConfig3().getInt("Levels." + Bukkit.getPlayer(u) + ".xp");
+        //int xp = net.goldmc.cosmicmining.Config.Config.getCustomConfig3().getInt("Levels." + Bukkit.getPlayer(u) + ".xp");
         for(Map.Entry<String , Integer> entry: hm.entrySet()) {
             // if give value is equal to value from entry
             // print the corresponding key
-            if(Objects.equals(entry.getKey(), blocklevel)) {
-                int sum = xp + entry.getValue();
-                net.goldmc.cosmicmining.Config.Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", sum);
-                net.goldmc.cosmicmining.Config.Config.saveConfig3();
-                return sum;
+            //if(Objects.equals(entry.getKey(), blocklevel)) {
+                //int sum = xp + entry.getValue();
+                //net.goldmc.cosmicmining.Config.Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", sum);
+                //net.goldmc.cosmicmining.Config.Config.saveConfig3();
+                //return sum;
             }
-        }
+       // }
+        //return -1;
         return -1;
     }
 }
