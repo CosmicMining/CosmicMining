@@ -71,20 +71,16 @@ public class BreakingFunctions {
                                 item = new ItemStack(Material.getMaterial(entry.getKey()));
                                 item.setAmount(x);
                                 p.getInventory().addItem(item);
-                                b.setType(Material.STONE);
-                                xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
-                                startRunnable(y, b, split);
-                                break;
                             } else {
                                 ItemStack item;
                                 item = new ItemStack(Material.getMaterial(entry.getKey() + "_INGOT"));
                                 item.setAmount(x);
                                 p.getInventory().addItem(item);
-                                b.setType(Material.STONE);
-                                xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
-                                startRunnable(y, b, split);
-                                break;
                             }
+                            b.setType(Material.STONE);
+                            xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
+                            startRunnable(y, b, split);
+                            break;
                         } else {
                             ItemStack item;
                             Dye l = new Dye();
