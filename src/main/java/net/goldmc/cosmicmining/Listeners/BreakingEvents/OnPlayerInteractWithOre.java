@@ -29,8 +29,7 @@ public class OnPlayerInteractWithOre implements Listener {
                 Block b = e.getClickedBlock();
                 if (b.getType() == Material.COAL_ORE || b.getType() == Material.IRON_ORE || b.getType() == Material.LAPIS_ORE || b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GLOWING_REDSTONE_ORE || b.getType() == Material.GOLD_ORE || b.getType() == Material.DIAMOND_ORE || b.getType() == Material.EMERALD_ORE || b.getType() == Material.COAL_BLOCK || b.getType() == Material.IRON_BLOCK || b.getType() == Material.LAPIS_BLOCK || b.getType() == Material.REDSTONE_BLOCK || b.getType() == Material.GOLD_BLOCK || b.getType() == Material.DIAMOND_BLOCK || b.getType() == Material.EMERALD_BLOCK) {
                     Player p = e.getPlayer();Random random = new Random();
-                    String origblock = b.getType().toString();
-                    String finalOrigblock = origblock;
+                    String finalOrigblock = b.getType().toString();
                     String[] split = finalOrigblock.split("_", 0);
                     hm.put("COAL", 1);
                     hm.put("IRON", 2);
@@ -45,7 +44,7 @@ public class OnPlayerInteractWithOre implements Listener {
                         // print the corresponding key
                         if (Objects.equals(entry.getKey(), split[0])) {
                             LoadPlayerData loadPlayerData = new LoadPlayerData();
-                            boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), entry.getValue());
+                            boolean canBreak = loadPlayerData.canBreakLevel(p.getUniqueId(), entry.getValue());
                             if(canBreak) {
                                 p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
                             }

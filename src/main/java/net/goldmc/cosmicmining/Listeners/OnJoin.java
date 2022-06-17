@@ -16,15 +16,16 @@ import java.util.UUID;
 public class OnJoin implements Listener {
     @EventHandler
     public static void joinEvent(PlayerJoinEvent e) throws IOException {
+        Config config = new Config();
         Player p = e.getPlayer();
         UUID u = p.getUniqueId();
         XpFunctions xpFunctions = new XpFunctions();
-        boolean miningUUID = Config.plugin.getLevels().contains("Levels." + e.getPlayer().getUniqueId().toString());
+        boolean miningUUID = config.getLevels().contains("Levels." + e.getPlayer().getUniqueId().toString());
         if(!miningUUID) {
-            YamlDocument levels = Config.plugin.getLevels();
+            YamlDocument levels = config.getLevels();
             levels.set("Levels." + e.getPlayer().getUniqueId().toString() + ".level", 1);
             levels.set("Levels." + e.getPlayer().getUniqueId().toString() + ".xp", 0);
-            Config.plugin.setLevels(levels);
+            config.setLevels(levels);
         }
         /*
         Config.getCustomConfig2().set("Players." + e.getPlayer().getUniqueId() + ".Username", p.getName());

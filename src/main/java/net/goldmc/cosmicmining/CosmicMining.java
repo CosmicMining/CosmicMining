@@ -4,6 +4,7 @@ package net.goldmc.cosmicmining;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
+import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,38 +34,14 @@ public final class CosmicMining extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteract(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteractWithOre(), this);
     }
-    YamlDocument config;
-    public void createConfig() throws IOException {
-        YamlDocument config = YamlDocument.create(new File(getDataFolder(), "config.yml"), getResource("config.yml"));
-    }
 
-    public YamlDocument getTheConfig() {
-        return config;
-    }
-
-    public void setConfig(YamlDocument config) {
-        this.config = config;
-    }
-    YamlDocument levels;
-
-    public void createLevels() throws IOException {
-        YamlDocument levels = YamlDocument.create(new File(getDataFolder(), "levels.yml"), getResource("levels.yml"));
-    }
-
-    public YamlDocument getLevels() {
-        return levels;
-    }
-
-    public void setLevels(YamlDocument levels) throws IOException {
-        this.levels = levels;
-        levels.save();
-    }
 
     @Override
     public void onEnable() {
         try {
-            createConfig();
-            createLevels();
+            Config config = new Config();
+            config.createConfig();
+            config.createLevels();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

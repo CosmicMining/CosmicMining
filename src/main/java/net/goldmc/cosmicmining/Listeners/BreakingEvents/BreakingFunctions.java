@@ -58,7 +58,7 @@ public class BreakingFunctions {
         int y = ThreadLocalRandom.current().nextInt(0, 10);
         int x = ThreadLocalRandom.current().nextInt(1, 3);
         String[] split = finalOrigblock.split("_", 0);
-        boolean canBreak = loadPlayerData.canBreak(p.getUniqueId(), blocklevel);
+        boolean canBreak = loadPlayerData.canBreakLevel(p.getUniqueId(), blocklevel);
         if(canBreak) {
             if(isoreblock) {
                 for(Map.Entry<String , Integer> entry: hm.entrySet()) {

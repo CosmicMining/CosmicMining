@@ -1,5 +1,6 @@
 package net.goldmc.cosmicmining.Leveling;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.CosmicMining;
 import net.goldmc.cosmicmining.Database.LoadPlayerData;
@@ -35,8 +36,8 @@ public class XpFunctions {
 
 
     public int giveXpForOre(UUID u, String blocklevel) {
-        CosmicMining plugin = Config.plugin;
-        FileConfiguration Config = plugin.getConfig(); //net.goldmc.cosmicmining.Config.Config.getCustomConfig1();
+        Config config = new Config();
+        YamlDocument Config = config.getTheConfig(); //net.goldmc.cosmicmining.Config.Config.getCustomConfig1();
 
         Map<String, Integer> hm
                 = new HashMap<>();

@@ -27,13 +27,14 @@ public class setXp implements CommandExecutor {
             if(args.length == 2) {
                 if (Bukkit.getOfflinePlayer(UUID.fromString(args[0])) != null) {
                     try {
+                        Config config = new Config();
                         long xp = parseLong(args[1]);
                         Player p = getPlayer(UUID.fromString(args[0]));
                         UUID u = UUID.fromString(args[0]);
                         //Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", xp);
-                        YamlDocument levels = Config.plugin.getLevels();
+                        YamlDocument levels = config.getLevels();
                         levels.set("Levels." + u.toString() + ".xp", xp);
-                        Config.plugin.setLevels(levels);
+                        config.setLevels(levels);
                         //Config.saveConfig3();
                         if(sender instanceof Player) {
                             sender.sendMessage(ChatColor.GREEN + "Xp Saved");

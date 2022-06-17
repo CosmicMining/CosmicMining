@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class LoadPlayerData {
     public int[] loadPlayerData(UUID uuid) {
-        CosmicMining plugin = (CosmicMining) CosmicMining.getPlugin(CosmicMining.class);
-        int level = plugin.getLevels().getInt("Levels." + uuid.toString() + ".level");
-        int xp = plugin.getLevels().getInt("Levels." + uuid.toString() + ".xp");
+        Config config = new Config();
+        int level = config.getLevels().getInt("Levels." + uuid.toString() + ".level");
+        int xp = config.getLevels().getInt("Levels." + uuid.toString() + ".xp");
         int[] data = new int[3];
         data[0] = level;
         data[1] = xp;
@@ -48,19 +48,13 @@ public class LoadPlayerData {
             return data;
         }
     }
-    public boolean canBreak(UUID uuid, int blockLevel) {
+    public boolean canBreakLevel(UUID uuid, int blockLevel) {
         boolean canBreak;
         int[] data = loadPlayerData(uuid);
         int breaklevel = data[2];
         switch (breaklevel) {
             case 1:
-                if(blockLevel <= 1) {
-                    canBreak = true;
-                    return true;
-                }
-                else {
-                    canBreak = false; return canBreak;
-                }
+                return blockLevel <= 1;
             case 2:
                 if(blockLevel <= 2) {
                     canBreak = true;
