@@ -66,7 +66,7 @@ public class BreakingFunctions {
                     // print the corresponding key
                     if(entry.getValue() == blocklevel) {
                         if(blocklevel != 3) {
-                            if(!(entry.getKey() == "GOLD" || entry.getKey() == "IRON")) {
+                            if(!(Objects.equals(entry.getKey(), "GOLD") || Objects.equals(entry.getKey(), "IRON"))) {
                                 ItemStack item;
                                 item = new ItemStack(Material.getMaterial(entry.getKey()));
                                 item.setAmount(x);

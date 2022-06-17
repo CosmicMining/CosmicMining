@@ -76,7 +76,7 @@ public class LoadPlayerData {
                     return true;
                 }
                 else {
-                    canBreak = false; return canBreak;
+                   return false;
                 }
             case 4:
                 if(blockLevel <= 4) {
