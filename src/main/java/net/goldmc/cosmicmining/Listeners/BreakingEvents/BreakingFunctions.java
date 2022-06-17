@@ -66,14 +66,25 @@ public class BreakingFunctions {
                     // print the corresponding key
                     if(entry.getValue() == blocklevel) {
                         if(blocklevel != 3) {
-                            ItemStack item;
-                            item = new ItemStack(Material.getMaterial(entry.getKey()));
-                            item.setAmount(x);
-                            p.getInventory().addItem(item);
-                            b.setType(Material.STONE);
-                            xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
-                            startRunnable(y, b, split);
-                            break;
+                            if(!(entry.getKey() == "GOLD" || entry.getKey() == "IRON")) {
+                                ItemStack item;
+                                item = new ItemStack(Material.getMaterial(entry.getKey()));
+                                item.setAmount(x);
+                                p.getInventory().addItem(item);
+                                b.setType(Material.STONE);
+                                xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
+                                startRunnable(y, b, split);
+                                break;
+                            } else {
+                                ItemStack item;
+                                item = new ItemStack(Material.getMaterial(entry.getKey() + "_INGOT"));
+                                item.setAmount(x);
+                                p.getInventory().addItem(item);
+                                b.setType(Material.STONE);
+                                xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
+                                startRunnable(y, b, split);
+                                break;
+                            }
                         } else {
                             ItemStack item;
                             Dye l = new Dye();
@@ -84,6 +95,7 @@ public class BreakingFunctions {
                             b.setType(Material.STONE);
                             xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
+                            break;
                         }
                     }
                 }

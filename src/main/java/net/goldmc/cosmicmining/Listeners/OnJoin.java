@@ -1,5 +1,6 @@
 package net.goldmc.cosmicmining.Listeners;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Leveling.XpFunctions;
 import org.bukkit.entity.Player;
@@ -7,17 +8,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.UUID;
 
 public class OnJoin implements Listener {
     @EventHandler
-    public static void joinEvent(PlayerJoinEvent e) {
+    public static void joinEvent(PlayerJoinEvent e) throws IOException {
         Player p = e.getPlayer();
         UUID u = p.getUniqueId();
         XpFunctions xpFunctions = new XpFunctions();
-
+        boolean miningUUID = Config.plugin.getLevels().contains("Levels." + e.getPlayer().getUniqueId().toString());
+        if(!miningUUID) {
+            YamlDocument levels = Config.plugin.getLevels();
+            levels.set("Levels." + e.getPlayer().getUniqueId().toString() + ".level", 1);
+            levels.set("Levels." + e.getPlayer().getUniqueId().toString() + ".xp", 0);
+            Config.plugin.setLevels(levels);
+        }
+        /*
         Config.getCustomConfig2().set("Players." + e.getPlayer().getUniqueId() + ".Username", p.getName());
         Config.saveConfig2();
         boolean miningUUID = Config.getCustomConfig3().contains("Levels." + e.getPlayer().getUniqueId().toString());
@@ -31,5 +40,7 @@ public class OnJoin implements Listener {
         //net.goldmc.cosmicmining.Database.Data.setPlayerData(u, Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".level"), Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".xp"));
         float xp = xpFunctions.calculateXp(u);
         p.setExp(xp);
+
+         */
     }
 }

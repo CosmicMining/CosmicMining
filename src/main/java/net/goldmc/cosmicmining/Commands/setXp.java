@@ -1,6 +1,7 @@
 package net.goldmc.cosmicmining.Commands;
 
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.UUID;
 
@@ -28,9 +30,11 @@ public class setXp implements CommandExecutor {
                         long xp = parseLong(args[1]);
                         Player p = getPlayer(UUID.fromString(args[0]));
                         UUID u = UUID.fromString(args[0]);
-                        Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", xp);
-
-                        Config.saveConfig3();
+                        //Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", xp);
+                        YamlDocument levels = Config.plugin.getLevels();
+                        levels.set("Levels." + u.toString() + ".xp", xp);
+                        Config.plugin.setLevels(levels);
+                        //Config.saveConfig3();
                         if(sender instanceof Player) {
                             sender.sendMessage(ChatColor.GREEN + "Xp Saved");
                         } else {
@@ -39,6 +43,8 @@ public class setXp implements CommandExecutor {
                         return true;
                     } catch (final NumberFormatException e) {
                         return false;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             } else {

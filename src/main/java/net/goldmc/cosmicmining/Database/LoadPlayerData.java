@@ -1,14 +1,16 @@
 package net.goldmc.cosmicmining.Database;
 
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.CosmicMining;
 import org.apache.commons.lang.math.IntRange;
 
 import java.util.UUID;
 
 public class LoadPlayerData {
     public int[] loadPlayerData(UUID uuid) {
-        int level = Config.getCustomConfig3().getInt("Levels." + uuid.toString() + ".level");
-        int xp = Config.getCustomConfig3().getInt("Levels." + uuid.toString() + ".xp");
+        CosmicMining plugin = (CosmicMining) CosmicMining.getPlugin(CosmicMining.class);
+        int level = plugin.getLevels().getInt("Levels." + uuid.toString() + ".level");
+        int xp = plugin.getLevels().getInt("Levels." + uuid.toString() + ".xp");
         int[] data = new int[3];
         data[0] = level;
         data[1] = xp;

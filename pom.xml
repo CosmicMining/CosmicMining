@@ -6,7 +6,7 @@
 
     <groupId>net.goldmc</groupId>
     <artifactId>cosmicmining</artifactId>
-    <version>0.1</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
 
     <name>Cosmicmining</name>
@@ -61,10 +61,6 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -73,6 +69,11 @@
             <artifactId>spigot-api</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.dejvokep</groupId>
+            <artifactId>boosted-yaml</artifactId>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 </project>
