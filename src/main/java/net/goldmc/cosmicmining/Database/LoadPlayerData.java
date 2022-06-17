@@ -48,63 +48,24 @@ public class LoadPlayerData {
             return data;
         }
     }
-    public boolean canBreakLevel(UUID uuid, int blockLevel) {
-        boolean canBreak;
+    public boolean canBreakBlock(UUID uuid, int blockLevel) {
         int[] data = loadPlayerData(uuid);
         int breaklevel = data[2];
         switch (breaklevel) {
             case 1:
                 return blockLevel <= 1;
             case 2:
-                if(blockLevel <= 2) {
-                    canBreak = true;
-                    return true;
-                }
-                else {
-                    canBreak = false;
-                    return false;
-                }
+                return blockLevel <= 2;
             case 3:
-                if(blockLevel <= 3) {
-                    canBreak = true;
-                    return true;
-                }
-                else {
-                   return false;
-                }
+                return blockLevel <= 3;
             case 4:
-                if(blockLevel <= 4) {
-                    canBreak = true;
-                    return true;
-                } else {
-                    canBreak = false;
-                    return false;
-                }
+                return blockLevel <= 4;
             case 5:
-                if(blockLevel <= 5) {
-                    canBreak = true;
-                    return true;
-                } else {
-                    canBreak = false;
-                    return false;
-                }
+                return blockLevel <= 5;
             case 6:
-                if(blockLevel <= 6) {
-                    canBreak = true;
-                    return true;
-                } else {
-                    canBreak = false;
-                    return false;
-                }
+                return blockLevel <= 6;
             case 7:
-                if(blockLevel <= 7) {
-                    canBreak = true;
-                    return true;
-                }
-                else {
-                    canBreak = false;
-                    return false;
-                }
+                return blockLevel <= 7;
             default:
                 return false;
         }
