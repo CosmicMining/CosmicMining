@@ -31,7 +31,7 @@ public class Config {
     YamlDocument levels;
 
     public void createLevels() throws IOException {
-        YamlDocument levels = YamlDocument.create(new File(plugin.getDataFolder(), "levels.yml"), plugin.getResource("levels.yml"));
+        levels = YamlDocument.create(new File(plugin.getDataFolder(), "levels.yml"), plugin.getResource("levels.yml"));
     }
 
     public YamlDocument getLevels() {
