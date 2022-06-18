@@ -2,25 +2,19 @@ package net.goldmc.cosmicmining.Leveling;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
-import net.goldmc.cosmicmining.CosmicMining;
 import net.goldmc.cosmicmining.Database.LoadPlayerData;
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Dye;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import static java.lang.Float.parseFloat;
 import static java.lang.Math.*;
 
 public class XpFunctions {
+    Config config = new Config();
     public float calculateXp(UUID u) {
         LoadPlayerData loadPlayerData = new LoadPlayerData();
         float xp = 0.0f;
@@ -35,9 +29,10 @@ public class XpFunctions {
     }
 
 
-    public int giveXpForOre(UUID u, String blocklevel) {
+    public void giveXpForOre(UUID u, String blocklevel) {
+        System.out.println("giveXpForOre");
         Config config = new Config();
-        YamlDocument Config = config.getTheConfig(); //net.goldmc.cosmicmining.Config.Config.getCustomConfig1();
+        YamlDocument Config = config.getTheConfig();
 
         Map<String, Integer> hm
                 = new HashMap<>();
@@ -45,6 +40,7 @@ public class XpFunctions {
         hm.put("IRON", Config.getInt("XpPerBlock.Iron"));
         hm.put("LAPIS", Config.getInt("XpPerBlock.Lapis"));
         hm.put("REDSTONE", Config.getInt("XpPerBlock.Redstone"));
+        hm.put("GLOWING", Config.getInt("XpPerBlock.Redstone"));
         hm.put("GOLD", Config.getInt("XpPerBlock.Gold"));
         hm.put("DIAMOND", Config.getInt("XpPerBlock.Diamond"));
         hm.put("EMERALD", Config.getInt("XpPerBlock.Emerald"));
@@ -53,18 +49,23 @@ public class XpFunctions {
 
 
         LoadPlayerData loadPlayerData = new LoadPlayerData();
-        //int xp = net.goldmc.cosmicmining.Config.Config.getCustomConfig3().getInt("Levels." + Bukkit.getPlayer(u) + ".xp");
+        YamlDocument levels = config.getLevels();
+        int xp = levels.getInt("Levels." + Bukkit.getPlayer(u) + ".xp");
         for(Map.Entry<String , Integer> entry: hm.entrySet()) {
             // if give value is equal to value from entry
             // print the corresponding key
-            //if(Objects.equals(entry.getKey(), blocklevel)) {
-                //int sum = xp + entry.getValue();
-                //net.goldmc.cosmicmining.Config.Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", sum);
-                //net.goldmc.cosmicmining.Config.Config.saveConfig3();
-                //return sum;
+            if(Objects.equals(entry.getKey(), blocklevel)) {
+                int sum = xp + entry.getValue();
+                System.out.println(xp);
+                levels.set("Levels." + u.toString() + ".xp", sum);
+                try {
+                    config.setLevels(levels);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return;
             }
-       // }
+       }
         //return -1;
-        return -1;
     }
 }

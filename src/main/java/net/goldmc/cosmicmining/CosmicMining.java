@@ -38,6 +38,7 @@ public final class CosmicMining extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        createListeners();
         try {
             Config config = new Config();
             config.createConfig();
@@ -50,7 +51,6 @@ public final class CosmicMining extends JavaPlugin {
         System.out.println("CosmicMining Started up");
         this.getCommand("setxp").setExecutor(new setXp());
         this.getCommand("setlevel").setExecutor(new setLevel());
-        createListeners();
     }
 
     @Override

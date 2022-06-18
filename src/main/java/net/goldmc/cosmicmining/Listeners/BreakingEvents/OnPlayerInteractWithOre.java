@@ -44,7 +44,7 @@ public class OnPlayerInteractWithOre implements Listener {
                         // print the corresponding key
                         if (Objects.equals(entry.getKey(), split[0])) {
                             LoadPlayerData loadPlayerData = new LoadPlayerData();
-                            boolean canBreak = loadPlayerData.canBreakLevel(p.getUniqueId(), entry.getValue());
+                            boolean canBreak = loadPlayerData.canBreakBlock(p.getUniqueId(), entry.getValue());
                             if(canBreak) {
                                 p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
                             }

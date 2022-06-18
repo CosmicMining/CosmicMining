@@ -9,8 +9,8 @@ import java.util.UUID;
 public class LoadPlayerData {
     public int[] loadPlayerData(UUID uuid) {
         Config config = new Config();
-        int level = config.getLevels().getInt("Levels." + uuid.toString() + ".level");
-        int xp = config.getLevels().getInt("Levels." + uuid.toString() + ".xp");
+        int level = (int) config.getLevels().get("Levels." + uuid.toString() + ".level");
+        int xp = (int) config.getLevels().get("Levels." + uuid.toString() + ".xp");
         int[] data = new int[3];
         data[0] = level;
         data[1] = xp;
