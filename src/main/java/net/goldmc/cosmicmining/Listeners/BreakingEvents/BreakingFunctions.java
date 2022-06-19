@@ -1,6 +1,6 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
-import net.goldmc.cosmicmining.Database.LoadPlayerData;
+import net.goldmc.cosmicmining.Utilites.PlayerData;
 import net.goldmc.cosmicmining.Leveling.XpFunctions;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -43,7 +43,7 @@ public class BreakingFunctions {
         }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
     }
     public void blockChecks(Player p, String finalOrigblock, Block b, int blocklevel, boolean isoreblock) {
-        LoadPlayerData loadPlayerData = new LoadPlayerData();
+        PlayerData playerData = new PlayerData();
         XpFunctions xpFunctions = new XpFunctions();
         Map<String, Integer> hm
                 = new HashMap<String, Integer>();
@@ -58,7 +58,7 @@ public class BreakingFunctions {
         int y = ThreadLocalRandom.current().nextInt(0, 10);
         int x = ThreadLocalRandom.current().nextInt(1, 3);
         String[] split = finalOrigblock.split("_", 0);
-        boolean canBreak = loadPlayerData.canBreakBlock(p.getUniqueId(), blocklevel);
+        boolean canBreak = playerData.canBreakBlock(p.getUniqueId(), blocklevel);
         if(canBreak) {
             if(isoreblock) {
                 for(Map.Entry<String , Integer> entry: hm.entrySet()) {

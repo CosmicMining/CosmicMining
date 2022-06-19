@@ -6,6 +6,7 @@ import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
+import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +15,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 public final class CosmicMining extends JavaPlugin {
 
@@ -27,6 +29,7 @@ public final class CosmicMining extends JavaPlugin {
         getServer().getWorld("world").setGameRuleValue("mobGreifing", "false");
     }
 
+
     public void createListeners() {
         Bukkit.getPluginManager().registerEvents(new OnJoin(), this);
         Bukkit.getPluginManager().registerEvents(new OnOreBlockBreak(), this);
@@ -34,15 +37,31 @@ public final class CosmicMining extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteract(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteractWithOre(), this);
     }
+    boolean checkPapi() {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            /*
+             * We register the EventListener here, when PlaceholderAPI is installed.
+             * Since all events are in the main class (this class), we simply use "this"
+             */
+            return true;
+        } else {
+            /*
+             * We inform about the fact that PlaceholderAPI isn't installed and then
+             * disable this plugin to prevent issues.
+             */
+            getLogger().severe("PlaceholderAPI is not installed, disabling plugin!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return false;
+        }
+    }
 
 
     @Override
     public void onEnable() {
         createListeners();
         try {
-            Config config = new Config();
-            config.createConfig();
-            config.createLevels();
+            Config.createConfig();
+            Config.createLevels();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,6 +70,9 @@ public final class CosmicMining extends JavaPlugin {
         System.out.println("CosmicMining Started up");
         this.getCommand("setxp").setExecutor(new setXp());
         this.getCommand("setlevel").setExecutor(new setLevel());
+        if(checkPapi()) {
+            System.out.println(new CosmicExpansion(this).register());
+        }
     }
 
     @Override

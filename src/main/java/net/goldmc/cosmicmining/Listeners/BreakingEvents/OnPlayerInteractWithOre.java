@@ -1,6 +1,6 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
-import net.goldmc.cosmicmining.Database.LoadPlayerData;
+import net.goldmc.cosmicmining.Utilites.PlayerData;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -43,8 +43,8 @@ public class OnPlayerInteractWithOre implements Listener {
                         // if give value is equal to value from entry
                         // print the corresponding key
                         if (Objects.equals(entry.getKey(), split[0])) {
-                            LoadPlayerData loadPlayerData = new LoadPlayerData();
-                            boolean canBreak = loadPlayerData.canBreakBlock(p.getUniqueId(), entry.getValue());
+                            PlayerData playerData = new PlayerData();
+                            boolean canBreak = playerData.canBreakBlock(p.getUniqueId(), entry.getValue());
                             if(canBreak) {
                                 p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
                             }

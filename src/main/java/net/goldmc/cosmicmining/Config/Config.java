@@ -14,32 +14,44 @@ import java.io.File;
 import java.io.IOException;
 
 public class Config {
-    CosmicMining plugin = (CosmicMining) CosmicMining.getPlugin(CosmicMining.class);
-    YamlDocument config;
-    public void createConfig() throws IOException {
+    static CosmicMining plugin = (CosmicMining) CosmicMining.getPlugin(CosmicMining.class);
+    static YamlDocument config;
+    public static void createConfig() throws IOException {
         config = YamlDocument.create(new File(plugin.getDataFolder(), "config.yml"), plugin.getResource("config.yml"));
     }
 
-    public YamlDocument getTheConfig() {
+    public static YamlDocument getTheConfig() {
+        try {
+            config.reload();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return config;
     }
 
-    public void setConfig(YamlDocument config) throws IOException {
-        this.config = config;
+    public static void setConfig(YamlDocument config) throws IOException {
+        Config.config = config;
         config.save();
+        config.reload();
     }
-    YamlDocument levels;
+    static YamlDocument levels;
 
-    public void createLevels() throws IOException {
+    public static void createLevels() throws IOException {
         levels = YamlDocument.create(new File(plugin.getDataFolder(), "levels.yml"), plugin.getResource("levels.yml"));
     }
 
-    public YamlDocument getLevels() {
+    public static YamlDocument getLevels() {
+        try {
+            levels.reload();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return levels;
     }
 
-    public void setLevels(YamlDocument levels) throws IOException {
-        this.levels = levels;
+    public static void setLevels(YamlDocument levels) throws IOException {
         levels.save();
+        levels.reload();
+        Config.levels = levels;
     }
 }
