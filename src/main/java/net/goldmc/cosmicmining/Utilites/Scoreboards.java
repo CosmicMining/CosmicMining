@@ -20,7 +20,9 @@ public class Scoreboards {
         xpf.checkLevelUp(uuid);
         int xptax = 1;
         ScoreboardWrapper wrapper = new ScoreboardWrapper("Prisons");
-        wrapper.setTitle("§6§lGoldMC §7- §b§lPrisons"); //TODO: Add date to the title
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+        LocalDateTime now = LocalDateTime.now();  
+        wrapper.setTitle("§6§lGoldMC §7- §b§lPrisons" + convert("&7" + now));
         wrapper.addLine("§b§lAccount: §r" + Bukkit.getOfflinePlayer(uuid).getName());
         wrapper.addLine("");
         wrapper.addLine(ChatColor.translateAlternateColorCodes('&', "&6&lLevel"));
