@@ -2,6 +2,7 @@ package net.goldmc.cosmicmining.Leveling;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
+import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Utilites.PlayerData;
 import org.apache.commons.lang.math.IntRange;
 
@@ -36,7 +37,24 @@ public class XpFunctions {
         float ninetyone100 = (float) (1 * (pow(level, 4)) + (50 * level) + 100);
         BigDecimal b1 = new BigDecimal(ninetyone100);
         //
-        return ninetyone100;
+        IntRange range1 = new IntRange(1, 10);
+        IntRange range2 = new IntRange(11, 30);
+        IntRange range3 = new IntRange(31, 55);
+        IntRange range4 = new IntRange(56, 90);
+        IntRange range5 = new IntRange(91, 100);
+        if (range1.containsInteger(level)) {
+            return oneten;
+        } else if (range2.containsInteger(level)) {
+            return eleventhirty;
+        } else if (range3.containsInteger(level)) {
+            return thirtyone55;
+        } else if (range4.containsInteger(level)) {
+            return fifty6ninety;
+        } else if (range5.containsInteger(level)) {
+            return ninetyone100;
+        } else {
+            return 0;
+        }
     }
 
 
@@ -72,5 +90,36 @@ public class XpFunctions {
                 return;
             }
        }
+    }
+    public void checkLevelUp(UUID u) {
+        YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
+        int xp = levels.getInt("Levels." + u.toString() + ".xp");
+        int level = levels.getInt("Levels." + u.toString() + ".level");
+        if(xp >= calculateXp(u)) {
+            int newlevel = level;
+            //loop to 100
+            while (xp >= calculateXp(u)) {
+                if(xp < calculateXp(u)) {
+                    YamlDocument levels1 = net.goldmc.cosmicmining.Config.Config.getLevels();
+                    levels1.set("Levels." + u.toString() + ".level", newlevel);
+                    try {
+                        net.goldmc.cosmicmining.Config.Config.setLevels(levels1);
+                        Config.getLevels().reload();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                } else {
+                    newlevel++;
+                    levels.set("Levels." + u.toString() + ".level", newlevel);
+                    try {
+                        net.goldmc.cosmicmining.Config.Config.setLevels(levels);
+                        Config.getLevels().reload();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

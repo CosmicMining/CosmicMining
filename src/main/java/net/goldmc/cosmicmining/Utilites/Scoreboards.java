@@ -2,6 +2,7 @@ package net.goldmc.cosmicmining.Utilites;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.libs.kyori.adventure.platform.facet.Facet;
+import net.goldmc.cosmicmining.Leveling.XpFunctions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -15,6 +16,8 @@ public class Scoreboards {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
     public static Scoreboard prisonsScoreboard(UUID uuid) {
+        XpFunctions xpf = new XpFunctions();
+        xpf.checkLevelUp(uuid);
         int xptax = 1;
         ScoreboardWrapper wrapper = new ScoreboardWrapper("Prisons");
         wrapper.setTitle("§6§lGoldMC §7- §b§lPrisons"); //TODO: Add date to the title
@@ -30,6 +33,9 @@ public class Scoreboards {
         wrapper.addLine(convert(PlaceholderAPI.setPlaceholders((OfflinePlayer) Bukkit.getPlayer(uuid), "   &7%cosmicmining_level_remaining_xp% (&a%cosmicmining_level_percentage%%&r&7) to &f" + nextlevel)));
         if(xptax != 0) {
             wrapper.addLine(convert("&c&lGuard XP Tax &c&l" + ChatColor.UNDERLINE + xptax + "%"));
+        }
+        if(Bukkit.getPlayer(uuid) != null) {
+            Bukkit.getPlayer(uuid).setScoreboard(wrapper.getScoreboard());
         }
         return wrapper.getScoreboard();
     }

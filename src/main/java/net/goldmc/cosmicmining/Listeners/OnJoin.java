@@ -27,7 +27,6 @@ public class OnJoin implements Listener {
             miningUUID = Config.getLevels().contains(Route.from("Levels", e.getPlayer().getUniqueId().toString()));
             if(!miningUUID) {
                 levels = Config.getLevels();
-                System.out.println(levels.toString());
                 levels.set("Levels." + e.getPlayer().getUniqueId().toString() + ".level", 1);
                 levels.set("Levels." + e.getPlayer().getUniqueId().toString() + ".xp", 0);
                 Config.setLevels(levels);

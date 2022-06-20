@@ -2,6 +2,7 @@ package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
 import net.goldmc.cosmicmining.Utilites.PlayerData;
 import net.goldmc.cosmicmining.Leveling.XpFunctions;
+import net.goldmc.cosmicmining.Utilites.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -12,6 +13,7 @@ import org.bukkit.material.Dye;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +82,7 @@ public class BreakingFunctions {
                             b.setType(Material.STONE);
                             xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
+                            Scoreboards.prisonsScoreboard(p.getUniqueId());
                             break;
                         } else {
                             ItemStack item;
@@ -91,6 +94,7 @@ public class BreakingFunctions {
                             b.setType(Material.STONE);
                             xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
+                            Scoreboards.prisonsScoreboard(p.getUniqueId());
                             break;
                         }
                     }
@@ -107,6 +111,7 @@ public class BreakingFunctions {
                 p.getInventory().addItem(item);
                 xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                 startRunnable(y, b, split);
+                Scoreboards.prisonsScoreboard(p.getUniqueId());
             }
         } else {
             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);

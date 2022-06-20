@@ -95,7 +95,6 @@ public class CosmicExpansion extends PlaceholderExpansion {
             double theXp = -22222;
             if(range1.containsInteger(level)) {
                 theXp = xp /  (5 * (pow(level, 2)) + (50L * level) + 100);
-                System.out.println(theXp);
             } else if(range2.containsInteger(level)) {
                 theXp = xp /  (5 * (pow(level, 2.5)) + (50L * level) + 100);
             } else if(range3.containsInteger(level)) {
@@ -107,7 +106,6 @@ public class CosmicExpansion extends PlaceholderExpansion {
             }
             theXp = round(theXp * 100);
             int theeXp = (int) theXp;
-            System.out.println(theeXp);
             return String.valueOf(theeXp);
         }
 

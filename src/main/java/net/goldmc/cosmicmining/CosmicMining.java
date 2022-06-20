@@ -71,7 +71,7 @@ public final class CosmicMining extends JavaPlugin {
         this.getCommand("setxp").setExecutor(new setXp());
         this.getCommand("setlevel").setExecutor(new setLevel());
         if(checkPapi()) {
-            System.out.println(new CosmicExpansion(this).register());
+            new CosmicExpansion(this).register();
         }
     }
 

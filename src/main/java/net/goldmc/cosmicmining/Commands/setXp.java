@@ -3,6 +3,7 @@ package net.goldmc.cosmicmining.Commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.Utilites.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -37,8 +38,10 @@ public class setXp implements CommandExecutor {
                         //Config.saveConfig3();
                         if(sender instanceof Player) {
                             sender.sendMessage(ChatColor.GREEN + "Xp Saved");
+                            Scoreboards.prisonsScoreboard(p.getUniqueId());
                         } else {
                             System.out.println("\u001B[32m" +"Xp Saved" + "\u001B[0m");
+                            Scoreboards.prisonsScoreboard(p.getUniqueId());
                         }
                         return true;
                     } catch (final NumberFormatException e) {
