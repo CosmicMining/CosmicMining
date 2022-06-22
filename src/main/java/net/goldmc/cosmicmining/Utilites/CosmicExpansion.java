@@ -60,18 +60,15 @@ public class CosmicExpansion extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String params) {
         if(params.equalsIgnoreCase("level")) {
-            YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
             return String.valueOf(levels.getInt("Levels." + player.getUniqueId().toString() + ".level"));
         }
         if(params.equalsIgnoreCase("xp")) {
-            YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
             int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
             DecimalFormat formatter = new DecimalFormat("#,###.00");
             xp = Integer.parseInt(formatter.format(xp));
             return String.valueOf(xp);
         }
         if(params.equalsIgnoreCase("level_remaining_xp")) {
-            YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
             int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
             int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
             BigInteger remainingXp = BigInteger.valueOf(-22222);
@@ -94,7 +91,6 @@ public class CosmicExpansion extends PlaceholderExpansion {
             return remainingxp;
         }
         if(params.equalsIgnoreCase("level_percentage")) {
-            YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
             int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
             int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
             double theXp = -22222;
