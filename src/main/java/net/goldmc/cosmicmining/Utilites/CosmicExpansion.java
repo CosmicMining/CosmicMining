@@ -10,11 +10,18 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 
 public class CosmicExpansion extends PlaceholderExpansion {
+    YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
+    IntRange range1 = new IntRange(1, 10);
+    IntRange range2 = new IntRange(11, 30);
+    IntRange range3 = new IntRange(31, 55);
+    IntRange range4 = new IntRange(56, 90);
+    IntRange range5 = new IntRange(91, 100);
 
     private final CosmicMining plugin;
 
@@ -58,17 +65,15 @@ public class CosmicExpansion extends PlaceholderExpansion {
         }
         if(params.equalsIgnoreCase("xp")) {
             YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
-            return String.valueOf(levels.getInt("Levels." + player.getUniqueId().toString() + ".xp"));
+            int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            xp = Integer.parseInt(formatter.format(xp));
+            return String.valueOf(xp);
         }
         if(params.equalsIgnoreCase("level_remaining_xp")) {
             YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
             int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
             int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
-            IntRange range1 = new IntRange(1, 10);
-            IntRange range2 = new IntRange(11, 30);
-            IntRange range3 = new IntRange(31, 55);
-            IntRange range4 = new IntRange(56, 90);
-            IntRange range5 = new IntRange(91, 100);
             BigInteger remainingXp = BigInteger.valueOf(-22222);
             if(range1.containsInteger(level)) {
                 remainingXp = BigInteger.valueOf((long) (5 * (pow(level, 2)) + (50L * level) + 100) - xp);
@@ -81,17 +86,17 @@ public class CosmicExpansion extends PlaceholderExpansion {
             } else if(range5.containsInteger(level)) {
                 remainingXp = BigInteger.valueOf((long) (1 * (pow(level, 4)) + (50L * level) + 100) - xp);
             }
-            return String.valueOf(remainingXp);
+            String remainingxp;
+            int amount = Integer.parseInt(String.valueOf(remainingXp));
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            remainingxp = formatter.format(amount);
+            remainingxp = remainingxp.replace(".00", "");
+            return remainingxp;
         }
         if(params.equalsIgnoreCase("level_percentage")) {
             YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
             int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
             int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
-            IntRange range1 = new IntRange(1, 10);
-            IntRange range2 = new IntRange(11, 30);
-            IntRange range3 = new IntRange(31, 55);
-            IntRange range4 = new IntRange(56, 90);
-            IntRange range5 = new IntRange(91, 100);
             double theXp = -22222;
             if(range1.containsInteger(level)) {
                 theXp = xp /  (5 * (pow(level, 2)) + (50L * level) + 100);
