@@ -59,29 +59,33 @@ public class CosmicExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
+        int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
+        int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
         if(params.equalsIgnoreCase("level")) {
             return String.valueOf(levels.getInt("Levels." + player.getUniqueId().toString() + ".level"));
         }
         if(params.equalsIgnoreCase("xp")) {
-            int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
             DecimalFormat formatter = new DecimalFormat("#,###.00");
             xp = Integer.parseInt(formatter.format(xp));
             return String.valueOf(xp);
         }
+        double v = 5 * (pow(level, 2)) + (50L * level) + 100;
+        double v1 = 5 * (pow(level, 2.5)) + (50L * level) + 100;
+        double v2 = 6 * (pow(level, 3)) + (50L * level) + 100;
+        double v3 = 7 * (pow(level, 3.5)) + (50L * level) + 100;
+        double v4 = 1 * (pow(level, 4)) + (50L * level) + 100;
         if(params.equalsIgnoreCase("level_remaining_xp")) {
-            int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
-            int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
             BigInteger remainingXp = BigInteger.valueOf(-22222);
             if(range1.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) (5 * (pow(level, 2)) + (50L * level) + 100) - xp);
+                remainingXp = BigInteger.valueOf((long) v - xp);
             } else if(range2.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) (5 * (pow(level, 2.5)) + (50L * level) + 100) - xp);
+                remainingXp = BigInteger.valueOf((long) v1 - xp);
             } else if(range3.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) (6 * (pow(level, 3)) + (50L * level) + 100) - xp);
+                remainingXp = BigInteger.valueOf((long) v2 - xp);
             } else if(range4.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) (7 * (pow(level, 3.5)) + (50L * level) + 100) - xp);
+                remainingXp = BigInteger.valueOf((long) v3 - xp);
             } else if(range5.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) (1 * (pow(level, 4)) + (50L * level) + 100) - xp);
+                remainingXp = BigInteger.valueOf((long) v4 - xp);
             }
             String remainingxp;
             int amount = Integer.parseInt(String.valueOf(remainingXp));
@@ -91,19 +95,17 @@ public class CosmicExpansion extends PlaceholderExpansion {
             return remainingxp;
         }
         if(params.equalsIgnoreCase("level_percentage")) {
-            int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
-            int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
             double theXp = -22222;
             if(range1.containsInteger(level)) {
-                theXp = xp /  (5 * (pow(level, 2)) + (50L * level) + 100);
+                theXp = xp /  v;
             } else if(range2.containsInteger(level)) {
-                theXp = xp /  (5 * (pow(level, 2.5)) + (50L * level) + 100);
+                theXp = xp /  v1;
             } else if(range3.containsInteger(level)) {
-                theXp = xp /  (6 * (pow(level, 3)) + (50L * level) + 100);
+                theXp = xp /  v2;
             } else if(range4.containsInteger(level)) {
-                theXp =  xp /  (7 * (pow(level, 3.5)) + (50L * level) + 100);
+                theXp =  xp /  v3;
             } else if(range5.containsInteger(level)) {
-                theXp =  xp /  (1 * (pow(level, 4)) + (50L * level) + 100);
+                theXp =  xp /  v4;
             }
             theXp = round(theXp * 100);
             int theeXp = (int) theXp;
