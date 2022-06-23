@@ -1,6 +1,7 @@
 name: CosmicMining
 version: '${project.version}'
 main: net.goldmc.cosmicmining.CosmicMining
+depend: [PlaceholderAPI]
 commands:
   setxp:
     description: Gives cosmic mining xp to the player

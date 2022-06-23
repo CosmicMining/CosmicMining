@@ -1,6 +1,8 @@
 package net.goldmc.cosmicmining.Database;
 
 
+import net.goldmc.cosmicmining.Utilites.PlayerData;
+
 import java.sql.*;
 import java.util.UUID;
 
@@ -47,8 +49,8 @@ public class Data {
 
         if(!result.isBeforeFirst()){
             System.out.println("No Data Found"); //data not exist
-            LoadPlayerData loadPlayerData = new LoadPlayerData();
-            int[] data = loadPlayerData.loadPlayerData(uuid);
+            PlayerData playerData = new PlayerData();
+            int[] data = playerData.loadPlayerData(uuid);
             stmt.executeQuery("INSERT INTO " + TableNAME + " " + "VALUES (" + uuid.toString() + ", " + level + ", " + xp + ")");
         }
             else{

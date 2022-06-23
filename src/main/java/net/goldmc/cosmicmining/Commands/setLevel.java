@@ -2,6 +2,7 @@ package net.goldmc.cosmicmining.Commands;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.Utilites.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,22 +24,23 @@ public class setLevel implements CommandExecutor {
             if(args.length == 2) {
                 if (Bukkit.getOfflinePlayer(UUID.fromString(args[0])) != null) {
                     try {
-                        Config config = new Config();
                         int level = Integer.parseInt(args[1]);
                         Player p = getPlayer(UUID.fromString(args[0]));
                         UUID u = UUID.fromString(args[0]);
                         //Config.getCustomConfig3().set("Levels." + u.toString() + ".level", level);
-                        YamlDocument levels = config.getLevels();
+                        YamlDocument levels = Config.getLevels();
                         levels.set("Levels." + u.toString() + ".level", level);
-                        config.setLevels(levels);
+                        Config.setLevels(levels);
                         if(getOfflinePlayer(u).isOnline()) {
                             p.setLevel(level);
                         }
                         //Config.saveConfig3();
                         if(sender instanceof Player) {
                             ((Player) sender).getPlayer().sendMessage(ChatColor.GREEN + "Level Saved");
+                            Scoreboards.prisonsScoreboard(p.getUniqueId());
                         } else {
                             System.out.println("\u001B[32m" +"Level Saved" + "\u001B[0m");
+                            Scoreboards.prisonsScoreboard(p.getUniqueId());
                         }
                         return true;
                     } catch (final NumberFormatException e) {

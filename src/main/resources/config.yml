@@ -1,8 +1,10 @@
+config-version: 0.1.2
 
 
-#Right Now this does nothing
-
-
+Scoreboards:
+  Enabled: true
+  Mode: Cosmic #Currently only mode available
+  ServerName: ExampleMC
 #Xp per block
 #You currently cannot specify any custom blocks for xp this will be added later
 XpPerBlock:
@@ -19,12 +21,12 @@ UseDifferentRefinedChance: false
 RefinedChance: 10
 #XpFormula Stuff
 #DO NOT EDIT THIS IF YOU DO NOT KNOW WHAT YOUR DOING
-CustomXpFormula: false
-XpFormula: 2*3
+#CustomXpFormula: false
+#XpFormula: 2*3
 #Custom Enchants
 CustomEnchants: true
 #Xp Booster
-XpBoosters: true
+XpBoosters: true #Not public yet
 #Xp bottles
 XpBottles: true
 #Mine anywhere (otherwise require CosmicMining.miningarea to mine ores)
