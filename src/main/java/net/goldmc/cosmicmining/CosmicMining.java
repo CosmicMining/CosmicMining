@@ -66,7 +66,7 @@ public final class CosmicMining extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        setGameRules();
+        //setGameRules();
         //TODO: Add config back
         System.out.println("CosmicMining Started up");
         this.getCommand("setxp").setExecutor(new setXp());

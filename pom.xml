@@ -6,7 +6,7 @@
 
     <groupId>net.goldmc</groupId>
     <artifactId>cosmicmining</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
 
     <name>Cosmicmining</name>

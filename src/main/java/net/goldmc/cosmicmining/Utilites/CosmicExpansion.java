@@ -66,8 +66,9 @@ public class CosmicExpansion extends PlaceholderExpansion {
         }
         if(params.equalsIgnoreCase("xp")) {
             DecimalFormat formatter = new DecimalFormat("#,###.00");
-            xp = Integer.parseInt(formatter.format(xp));
-            return String.valueOf(xp);
+            String xpstuff = formatter.format(xp);
+            xpstuff = xpstuff.replace(".00", "");
+            return xpstuff;
         }
         double v = 5 * (pow(level, 2)) + (50L * level) + 100;
         double v1 = 5 * (pow(level, 2.5)) + (50L * level) + 100;
