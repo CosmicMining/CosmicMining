@@ -7,6 +7,7 @@ import net.goldmc.cosmicmining.Commands.setXp;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
+import net.goldmc.cosmicmining.Utilites.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -59,7 +59,7 @@ public class CosmicExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        int xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
+        int  xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
         int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
         if(params.equalsIgnoreCase("level")) {
             return String.valueOf(levels.getInt("Levels." + player.getUniqueId().toString() + ".level"));
