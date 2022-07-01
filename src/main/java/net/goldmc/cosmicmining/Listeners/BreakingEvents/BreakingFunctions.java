@@ -13,7 +13,6 @@ import org.bukkit.material.Dye;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,14 +48,7 @@ public class BreakingFunctions {
         XpFunctions xpFunctions = new XpFunctions();
         Map<String, Integer> hm
                 = new HashMap<String, Integer>();
-        hm.put("COAL", 1);
-        hm.put("IRON", 2);
-        hm.put("LAPIS", 3);
-        hm.put("REDSTONE", 4);
-        hm.put("GLOWING", 4);
-        hm.put("GOLD", 5);
-        hm.put("DIAMOND", 6);
-        hm.put("EMERALD", 7);
+        OnOreBlockBreak.oreandblocksmap(hm);
         int y = ThreadLocalRandom.current().nextInt(0, 10);
         int x = ThreadLocalRandom.current().nextInt(1, 3);
         String[] split = finalOrigblock.split("_", 0);
