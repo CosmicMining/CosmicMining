@@ -31,14 +31,7 @@ public class OnPlayerInteractWithOre implements Listener {
                     Player p = e.getPlayer();Random random = new Random();
                     String finalOrigblock = b.getType().toString();
                     String[] split = finalOrigblock.split("_", 0);
-                    hm.put("COAL", 1);
-                    hm.put("IRON", 2);
-                    hm.put("LAPIS", 3);
-                    hm.put("REDSTONE", 4);
-                    hm.put("GLOWING", 4);
-                    hm.put("GOLD", 5);
-                    hm.put("DIAMOND", 6);
-                    hm.put("EMERALD", 7);
+                    OnOreBlockBreak.oreandblocksmap(hm);
                     for (Map.Entry<String, Integer> entry : hm.entrySet()) {
                         // if give value is equal to value from entry
                         // print the corresponding key

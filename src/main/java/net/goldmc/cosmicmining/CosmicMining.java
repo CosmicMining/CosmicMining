@@ -1,6 +1,8 @@
 package net.goldmc.cosmicmining;
 
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
@@ -34,7 +36,6 @@ public final class CosmicMining extends JavaPlugin {
     public void createListeners() {
         Bukkit.getPluginManager().registerEvents(new OnJoin(), this);
         Bukkit.getPluginManager().registerEvents(new OnOreBlockBreak(), this);
-        Bukkit.getPluginManager().registerEvents(new OnBlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteract(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteractWithOre(), this);
     }
