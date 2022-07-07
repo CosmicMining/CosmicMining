@@ -6,6 +6,7 @@ import net.goldmc.cosmicmining.Commands.setXp;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
+import net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets.ReceiveBlockAnimation;
 import net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets.ReceiveBlockBreakStatus;
 import net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets.ReceiveRemoveEntityEffect;
 import org.bukkit.Bukkit;
@@ -60,6 +61,7 @@ public final class CosmicMining extends JavaPlugin {
     public void onEnable() {
         createListeners();
         new ReceiveBlockBreakStatus(this);
+        new ReceiveBlockAnimation(this);
         try {
             Config.createConfig();
             Config.createLevels();
