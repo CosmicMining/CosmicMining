@@ -1,28 +1,26 @@
 package net.goldmc.cosmicmining;
 
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
-import net.goldmc.cosmicmining.Utilites.Scoreboards;
+import net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets.ReceiveBlockBreakStatus;
+import net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets.ReceiveRemoveEntityEffect;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.goldmc.cosmicmining.Listeners.OnJoin;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public final class CosmicMining extends JavaPlugin {
 
     Boolean Data;
+
+    public static Object getInstance() {
+        return null;
+    }
 
     public void setGameRules() {
         getServer().getWorld("world").setGameRuleValue("doEntityDrops", "false");
@@ -61,6 +59,7 @@ public final class CosmicMining extends JavaPlugin {
     @Override
     public void onEnable() {
         createListeners();
+        new ReceiveBlockBreakStatus(this);
         try {
             Config.createConfig();
             Config.createLevels();

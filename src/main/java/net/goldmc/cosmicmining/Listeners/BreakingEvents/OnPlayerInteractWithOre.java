@@ -1,6 +1,9 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
+import net.goldmc.cosmicmining.Utilites.MultiVersion.ClientSideEffects.ClientSideEffects;
+import net.goldmc.cosmicmining.Utilites.MultiVersion.ClientSideEffects.ClientSideEffects_v1_8_R3;
 import net.goldmc.cosmicmining.Utilites.PlayerData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -40,6 +43,13 @@ public class OnPlayerInteractWithOre implements Listener {
                             boolean canBreak = playerData.canBreakBlock(p.getUniqueId(), entry.getValue());
                             if(canBreak) {
                                 p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+                                ClientSideEffects clientSideEffects = null;
+                                if(Bukkit.getServer().getClass().getName().contains("v1_8_R3")) {
+                                    clientSideEffects = new ClientSideEffects_v1_8_R3();
+                                }
+                                if (clientSideEffects != null) {
+                                    clientSideEffects.sendClientSideEffect(p, PotionEffectType.SLOW_DIGGING, 0, 9999999);
+                                }
                             }
                             break;
                         }

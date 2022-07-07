@@ -84,6 +84,20 @@
             <version>4.8.0</version>
         </dependency>
         <dependency>
+            <groupId>local.spigot.nms.8</groupId>
+            <artifactId>1.8NMS</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/Libs/spigot-1.8.8-R0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>local.spigot.nms.12</groupId>
+            <artifactId>1.12NMS</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/Libs/spigot-1.12.2-R0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>dev.dejvokep</groupId>
             <artifactId>boosted-yaml</artifactId>
             <version>1.2</version>
