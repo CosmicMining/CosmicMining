@@ -1,3 +1,4 @@
+/*
 package net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets;
 
 import com.comphenix.protocol.PacketType;
@@ -37,3 +38,4 @@ public class ReceiveRemoveEntityEffect {
         protocolManager.addPacketListener(packet);
     }
 }
+*/

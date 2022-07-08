@@ -1,3 +1,4 @@
+/*
 package net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets;
 
 import com.comphenix.protocol.PacketType;
@@ -20,12 +21,14 @@ public class ReceiveBlockAnimation {
             @Override
             public void onPacketSending(PacketEvent event) {
                 PacketContainer packet = event.getPacket();
-                int EntityID = packet.getIntegers().read(0);
-                if(!String.valueOf(EntityID).contains("73634")) {
+                int destroyStage = packet.getIntegers().read(1);
+                if(destroyStage == 0) {
                     event.setCancelled(true);
+                    event.setPacket(null);
                 }
             }
         };
         protocolManager.addPacketListener(packet);
     }
 }
+ */

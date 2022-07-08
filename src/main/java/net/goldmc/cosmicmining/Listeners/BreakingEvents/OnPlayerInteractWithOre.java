@@ -43,8 +43,7 @@ public class OnPlayerInteractWithOre implements Listener {
                             PlayerData playerData = new PlayerData();
                             boolean canBreak = playerData.canBreakBlock(p.getUniqueId(), entry.getValue());
                             if(canBreak) {
-                                Objects.requireNonNull(BlockBreakHoldersHashMap.getBlockBreakHolder(p.getUniqueId())).addBlock(p, 8, b.getX(), b.getY(), b.getZ());
-                                p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+                                Objects.requireNonNull(BlockBreakHoldersHashMap.getBlockBreakHolder(p.getUniqueId())).addBlock(p, 2, b.getX(), b.getY(), b.getZ());
                             }
                             break;
                         }

@@ -1,3 +1,4 @@
+/*
 package net.goldmc.cosmicmining.Utilites.MultiVersion.RecievePackets;
 
 import com.comphenix.protocol.PacketType;
@@ -12,8 +13,11 @@ import net.goldmc.cosmicmining.CosmicMining;
 import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
+/*
 public class ReceiveBlockBreakStatus {
+/*
+ */
+/*
     public ReceiveBlockBreakStatus(CosmicMining plugin) {
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         PacketAdapter packet = new PacketAdapter(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.BLOCK_DIG) {
@@ -32,3 +36,6 @@ public class ReceiveBlockBreakStatus {
         protocolManager.addPacketListener(packet);
     }
 }
+
+
+ */

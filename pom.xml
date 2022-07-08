@@ -38,7 +38,14 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>io.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>io.github.retrooper.customplugin.packetevents</shadedPattern> <!--relocate packetevents package. choose something unique!-->
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -53,6 +60,10 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>jitpack-repo</id>
+            <url>https://jitpack.io/</url>
+        </repository>
         <repository>
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/repository/public/</url>
@@ -79,9 +90,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>4.8.0</version>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents</artifactId>
+            <version>v1.8.4</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>local.spigot.nms.8</groupId>
