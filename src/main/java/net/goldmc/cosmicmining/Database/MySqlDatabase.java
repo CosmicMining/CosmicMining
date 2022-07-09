@@ -39,6 +39,7 @@ public class MySqlDatabase {
                             "  `uuid` varchar(36) NOT NULL,\n" +
                             "  `level` INT NOT NULL DEFAULT '1',\n" +
                             "  `xp` BIGINT NOT NULL DEFAULT '0',\n" +
+                            "  `xpbooster` DOUBLE NOT NULL DEFAULT '1.0',\n" +
                             "  PRIMARY KEY (`uuid`)\n" +
                             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;").execute();
                 } catch (Exception e) {
