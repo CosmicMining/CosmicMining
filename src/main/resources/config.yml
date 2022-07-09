@@ -38,6 +38,6 @@ MySql:
   address: 'localhost'
   port: 3306
   database: 'examplemc'
-  table-prefix: 'cosmicmining_'#Changing this will use a different table which can break already existing data
-  username: 'root'
-  password: 'root'
+  table-prefix: 'cosmicmining' #Changing this will use a different table which can break already existing data
+  username: "root"
+  password: "root"

@@ -1,21 +1,18 @@
 package net.goldmc.cosmicmining.Database;
 
 
-import be.bendem.sqlstreams.util.SqlFunction;
-import com.google.common.collect.ImmutableMap;
 import com.mysql.jdbc.PreparedStatement;
+import com.zaxxer.hikari.HikariDataSource;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import me.lucko.helper.sql.DatabaseCredentials;
-import me.lucko.helper.sql.plugin.HelperSql;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import static net.goldmc.cosmicmining.Config.Config.getTheConfig;
+import static net.goldmc.cosmicmining.Database.InitSql.getSource;
 
 public class MySqlDatabase {
     private static boolean triedToConnect = false;
-    private static HelperSql helperSql;
+    private static HikariDataSource dataSource;
     public MySqlDatabase() {
         connect();
         createTableIfUsed();
@@ -23,14 +20,9 @@ public class MySqlDatabase {
 
     public void connect() {
         if(getTheConfig().getBoolean("MySql.use")) {
-            YamlDocument config = getTheConfig();
-            String host = getTheConfig().get("MySql.address").toString();
-            int port = config.getInt("MySql.port");
-            String name = config.getString("MySql.database");
-            String username = config.getString("MySql.username");
-            String password = config.getString("MySql.password");
             try {
-                helperSql = new HelperSql(DatabaseCredentials.of(host, port, name, username, password));
+                new InitSql();
+                dataSource = getSource();
                 System.out.println("[CosmicMining] Connected to database!");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -38,12 +30,16 @@ public class MySqlDatabase {
         }
     }
     public void createTableIfUsed() {
+        System.out.println("A");
         if(!triedToConnect) {
+            System.out.println("B");
             triedToConnect = true;
             YamlDocument config = getTheConfig();
-            if(config.getBoolean("Mysql.use")) {
+            if(config.getBoolean("MySql.use")) {
+                System.out.println("C");
                 try {
-                    helperSql.getHikari().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + getTheConfig().getString("MySql.table-prefix").toString() + "_levels` (\n" +
+                    System.out.println("D");
+                    dataSource.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + getTheConfig().getString("MySql.table-prefix").toString() + "_levels` (\n" +
                             "  `uuid` varchar(36) NOT NULL,\n" +
                             "  `level` INT NOT NULL DEFAULT '1',\n" +
                             "  `xp` BIGINT NOT NULL DEFAULT '0',\n" +
@@ -60,7 +56,7 @@ public class MySqlDatabase {
         YamlDocument config = getTheConfig();
         if(config.getBoolean("MySql.use")) {
             try {
-                PreparedStatement updateData = (PreparedStatement) helperSql.getHikari().getConnection().prepareStatement("UPDATE "+ getTheConfig().getString("MySql.table-prefix") + "_levels set level=? and xp=? and xpmultiplier=? WHERE uuid=?");
+                PreparedStatement updateData = (PreparedStatement) dataSource.getConnection().prepareStatement("UPDATE "+ getTheConfig().getString("MySql.table-prefix") + "_levels set level=? and xp=? and xpmultiplier=? WHERE uuid=?");
                 updateData.setInt(1, level);
                 updateData.setLong(2, xp);
                 updateData.setDouble(3, xpmultiplier);
