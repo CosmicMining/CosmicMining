@@ -25,15 +25,10 @@ public class MySqlDatabase {
         if(getTheConfig().getBoolean("MySql.use")) {
             YamlDocument config = getTheConfig();
             String host = getTheConfig().get("MySql.address").toString();
-            System.out.println("MySql host: " + host);
             int port = config.getInt("MySql.port");
-            System.out.println("MySql port: " + port);
             String name = config.getString("MySql.database");
-            System.out.println("MySql database: " + name);
             String username = config.getString("MySql.username");
-            System.out.println("MySql username: " + username);
             String password = config.getString("MySql.password");
-            System.out.println("MySql password: " + password);
             try {
                 helperSql = new HelperSql(DatabaseCredentials.of(host, port, name, username, password));
                 System.out.println("[CosmicMining] Connected to database!");
