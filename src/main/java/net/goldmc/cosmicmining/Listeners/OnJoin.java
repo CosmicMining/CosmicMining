@@ -49,7 +49,7 @@ public class OnJoin implements Listener {
         }
         int Level = Integer.parseInt(Config.getCustomConfig3().getString("Levels." + e.getPlayer().getUniqueId().toString()+ ".level"));
         p.setLevel(Level);
-        //net.goldmc.cosmicmining.Database.Data.setPlayerData(u, Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".level"), Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".xp"));
+        //net.goldmc.cosmicmining.Database.MySqlDatabase.setPlayerData(u, Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".level"), Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".xp"));
         float xp = xpFunctions.calculateXp(u);
         p.setExp(xp);
 

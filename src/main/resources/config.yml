@@ -33,11 +33,11 @@ XpBottles: true
 MineAnywhere: false
 
 #Mysql Storage
-Mysql:
+MySql:
   use: false
-  host: localhost
+  address: 'localhost'
   port: 3306
-  database: examplemc
-  table-prefix: cosmicmining_ #Changing this will use a different table which can break already existing data
-  username: root
-  password: root
+  database: 'examplemc'
+  table-prefix: 'cosmicmining_'#Changing this will use a different table which can break already existing data
+  username: 'root'
+  password: 'root'

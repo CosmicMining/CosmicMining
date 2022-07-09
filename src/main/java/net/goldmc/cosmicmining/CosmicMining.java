@@ -4,6 +4,7 @@ package net.goldmc.cosmicmining;
 import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.Database.MySqlDatabase;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import net.goldmc.cosmicmining.Utilites.BlockBreakHolder;
 import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
@@ -74,6 +75,7 @@ public final class CosmicMining extends JavaPlugin {
         if(checkPapi()) {
             new CosmicExpansion(this).register();
         }
+        MySqlDatabase mySqlDatabase = new MySqlDatabase();
     }
 
     @Override
