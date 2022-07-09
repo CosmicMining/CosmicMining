@@ -31,3 +31,13 @@ XpBoosters: true #Not public yet
 XpBottles: true
 #Mine anywhere (otherwise require CosmicMining.miningarea to mine ores)
 MineAnywhere: false
+
+#Mysql Storage
+Mysql:
+  use: false
+  host: localhost
+  port: 3306
+  database: examplemc
+  table-prefix: cosmicmining_ #Changing this will use a different table which can break already existing data
+  username: root
+  password: root

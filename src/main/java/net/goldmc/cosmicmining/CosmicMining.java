@@ -79,6 +79,5 @@ public final class CosmicMining extends JavaPlugin {
     @Override
     public void onDisable() {
         System.out.println("Shutting down database");
-        net.goldmc.cosmicmining.Database.Data.shutdownDatabase();
     }
 }

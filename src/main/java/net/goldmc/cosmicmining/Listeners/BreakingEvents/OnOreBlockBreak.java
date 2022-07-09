@@ -24,7 +24,7 @@ public class OnOreBlockBreak implements Listener {
         Block b = e.getBlock();
         Player p = e.getPlayer();
 
-        if(p.hasPermission("cosmicmining.minearea")) {
+        if(p.hasPermission("cosmicmining.minearea.mine")) {
             //Gets all ore types from enum
             String finalOrigblock = b.getType().toString();
             String[] split = finalOrigblock.split("_", 0);
