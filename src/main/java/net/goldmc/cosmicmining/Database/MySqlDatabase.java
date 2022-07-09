@@ -30,15 +30,11 @@ public class MySqlDatabase {
         }
     }
     public void createTableIfUsed() {
-        System.out.println("A");
         if(!triedToConnect) {
-            System.out.println("B");
             triedToConnect = true;
             YamlDocument config = getTheConfig();
             if(config.getBoolean("MySql.use")) {
-                System.out.println("C");
                 try {
-                    System.out.println("D");
                     dataSource.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + getTheConfig().getString("MySql.table-prefix").toString() + "_levels` (\n" +
                             "  `uuid` varchar(36) NOT NULL,\n" +
                             "  `level` INT NOT NULL DEFAULT '1',\n" +
