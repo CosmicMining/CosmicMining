@@ -1,8 +1,10 @@
 package net.goldmc.cosmicmining.Utilites;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.Database.MySqlDatabase;
 import org.apache.commons.lang.math.IntRange;
-import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -10,6 +12,16 @@ import java.util.UUID;
 import static org.bukkit.Bukkit.getOfflinePlayer;
 
 public class PlayerData {
+    private UUID uuid;
+
+    public PlayerData(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public PlayerData() {
+
+    }
+
     public int[] loadPlayerData(UUID uuid) {
         int level = (int) Config.getLevels().get("Levels." + uuid.toString() + ".level");
         int xp = (int) Config.getLevels().get("Levels." + uuid.toString() + ".xp");
@@ -57,6 +69,37 @@ public class PlayerData {
                 return blockLevel <= 7;
             default:
                 return false;
+        }
+    }
+    public boolean updatePlayerData(UUID uuid, int level, long xp) {
+        if(Config.getTheConfig().getBoolean("MySql.use")) {
+            new MySqlDatabase().updatePlayerData(uuid, level, xp);
+        } else {
+            YamlDocument levels = Config.getLevels();
+            levels.set("Levels." + uuid.toString() + ".level", level);
+            levels.set("Levels." + uuid.toString() + ".xp", xp);
+            try {
+                Config.setLevels(levels);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void registerXpBooster(Player p, double multiplier, int minutes) {
+        if(Config.getTheConfig().getBoolean("MySql.use")) {
+            new MySqlDatabase().registerXpBooster(p, multiplier, minutes * 60L);
+        } else {
+            YamlDocument xpBoosters = Config.getXpBoosters();
+            xpBoosters.set(p.getUniqueId().toString() + ".multiplier", multiplier);
+            xpBoosters.set(p.getUniqueId().toString() + ".duration", minutes);
+            try {
+                Config.setXpBoosters(xpBoosters);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

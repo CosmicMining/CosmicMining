@@ -41,8 +41,29 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>io.github.retrooper.packetevents</pattern>
-                                    <shadedPattern>io.github.retrooper.customplugin.packetevents</shadedPattern> <!--relocate packetevents package. choose something unique!-->
+                                    <pattern>com.github.retrooper</pattern>
+                                    <shadedPattern>com.github.retrooper.cosmicmining
+                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper</pattern>
+                                    <shadedPattern>io.github.retrooper.cosmicmining
+                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori</pattern>
+                                    <shadedPattern>com.github.retrooper.cosmicmining.packetevents.libs.net.kyori
+                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>com.github.retrooper.cosmicmining.packetevents.libs.com.google.gson
+                                    </shadedPattern> <!--relocate packetevents package. choose something unique!-->
+                                </relocation>
+                                <relocation>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>net.goldmc.cosmicmining.somenbtstuff</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -59,6 +80,11 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+            <layout>default</layout>
+        </repository>
         <repository>
             <id>jitpack-repo</id>
             <url>https://jitpack.io/</url>
@@ -89,9 +115,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.retrooper</groupId>
-            <artifactId>packetevents</artifactId>
-            <version>v1.8.4</version>
+            <groupId>com.github.retrooper.packetevents</groupId>
+            <artifactId>spigot</artifactId>
+            <version>2.0-d54baa4293-1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -128,6 +154,12 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.10.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

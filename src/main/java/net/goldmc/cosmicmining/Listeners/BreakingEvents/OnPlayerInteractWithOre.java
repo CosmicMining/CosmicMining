@@ -1,8 +1,6 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
 import net.goldmc.cosmicmining.Utilites.BlockBreakHoldersHashMap;
-import net.goldmc.cosmicmining.Utilites.MultiVersion.ClientSideEffects.ClientSideEffects;
-import net.goldmc.cosmicmining.Utilites.MultiVersion.ClientSideEffects.ClientSideEffects_v1_8_R3;
 import net.goldmc.cosmicmining.Utilites.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

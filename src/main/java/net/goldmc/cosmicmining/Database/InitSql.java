@@ -33,6 +33,10 @@ public class InitSql {
     private static HikariDataSource source = null;
 
     public InitSql() {
+        newConnection();
+    }
+
+    public static HikariDataSource newConnection() {
         final HikariConfig hikari = new HikariConfig();
 
         hikari.setPoolName("helper-sql-" + POOL_COUNTER.getAndIncrement());
@@ -58,6 +62,7 @@ public class InitSql {
         hikari.addDataSourceProperty("properties", "useUnicode=true;characterEncoding=utf8");
 
         source = new HikariDataSource(hikari);
+        return source;
     }
 
     public static HikariDataSource getSource() {

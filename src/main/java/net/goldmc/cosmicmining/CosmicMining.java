@@ -1,10 +1,15 @@
 package net.goldmc.cosmicmining;
 
 
+import com.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import net.goldmc.cosmicmining.Commands.CreateXpBooster;
 import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
 import net.goldmc.cosmicmining.Config.Config;
+import net.goldmc.cosmicmining.Database.InitSql;
 import net.goldmc.cosmicmining.Database.MySqlDatabase;
+import net.goldmc.cosmicmining.Leveling.XpBoosters.XpBoosterRightClick;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
 import net.goldmc.cosmicmining.Utilites.BlockBreakHolder;
 import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
@@ -36,6 +41,7 @@ public final class CosmicMining extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnOreBlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteract(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteractWithOre(), this);
+        Bukkit.getPluginManager().registerEvents(new XpBoosterRightClick(), this);
     }
     boolean checkPapi() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -55,31 +61,43 @@ public final class CosmicMining extends JavaPlugin {
         }
     }
 
+    public void onLoad() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        //Are all listeners read only?
+        PacketEvents.getAPI().getSettings().readOnlyListeners(true)
+                .checkForUpdates(true)
+                .bStats(true);
+        PacketEvents.getAPI().load();
+    }
 
     @Override
     public void onEnable() {
-        //add plugin to blockbreakholders
-        new BlockBreakHolder(this);
-        createListeners();
         try {
             Config.createConfig();
             Config.createLevels();
+            Config.createXpBoosters();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //add plugin to blockbreakholders
+        new BlockBreakHolder(this);
+        createListeners();
         //setGameRules();
         //TODO: Add config back
         System.out.println("CosmicMining Started up");
-        this.getCommand("setxp").setExecutor(new setXp());
-        this.getCommand("setlevel").setExecutor(new setLevel());
+        getCommand("setxp").setExecutor(new setXp());
+        getCommand("setlevel").setExecutor(new setLevel());
+        getCommand("xpbooster").setExecutor(new CreateXpBooster());
         if(checkPapi()) {
             new CosmicExpansion(this).register();
         }
-        MySqlDatabase mySqlDatabase = new MySqlDatabase();
+        new MySqlDatabase();
+        PacketEvents.getAPI().init();
     }
 
     @Override
     public void onDisable() {
+        InitSql.getSource().close();
         System.out.println("Shutting down database");
     }
 }

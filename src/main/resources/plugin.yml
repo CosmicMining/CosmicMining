@@ -11,3 +11,7 @@ commands:
     description: Set the players cosmic mining level
     usage: /<command> <player/uuid> <level>
     permission: cosmicmining.setlevel
+  xpbooster:
+    description: Give the player a xp booster
+    usage: /<command> <mulitplier> <duration>
+    permission: cosmicmining.xpboostercommand
