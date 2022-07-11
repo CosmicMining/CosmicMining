@@ -93,6 +93,7 @@ public final class CosmicMining extends JavaPlugin {
         }
         new MySqlDatabase();
         PacketEvents.getAPI().init();
+        System.out.println(Config.getXpBoosters().getDouble("dddddd" + ".multiplier"));
     }
 
     @Override

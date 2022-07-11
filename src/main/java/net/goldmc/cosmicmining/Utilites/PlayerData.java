@@ -71,6 +71,15 @@ public class PlayerData {
                 return false;
         }
     }
+    public double getXpMultiplier(UUID u) {
+        Double multiplier = 1.0;
+        if(!Config.getTheConfig().getBoolean("MySql.use")) {
+            if(Config.getXpBoosters().get(u.toString() + ".multiplier") != null) {
+                multiplier = (Double) Config.getXpBoosters().get(u + ".booster");
+            }
+        }
+        return multiplier;
+    }
     public boolean updatePlayerData(UUID uuid, int level, long xp) {
         if(Config.getTheConfig().getBoolean("MySql.use")) {
             new MySqlDatabase().updatePlayerData(uuid, level, xp);

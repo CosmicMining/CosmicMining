@@ -59,17 +59,17 @@ public class XpFunctions {
 
 
     public void giveXpForOre(UUID u, String blocklevel) {
-        YamlDocument Config = net.goldmc.cosmicmining.Config.Config.getTheConfig();
+        YamlDocument config = net.goldmc.cosmicmining.Config.Config.getTheConfig();
         Map<String, Integer> hm
                 = new HashMap<>();
-        hm.put("COAL", Config.getInt(Route.from("XpPerBlock", "Coal")));
-        hm.put("IRON", Config.getInt("XpPerBlock.Iron"));
-        hm.put("LAPIS", Config.getInt("XpPerBlock.Lapis"));
-        hm.put("REDSTONE", Config.getInt("XpPerBlock.Redstone"));
-        hm.put("GLOWING", Config.getInt("XpPerBlock.Redstone"));
-        hm.put("GOLD", Config.getInt("XpPerBlock.Gold"));
-        hm.put("DIAMOND", Config.getInt("XpPerBlock.Diamond"));
-        hm.put("EMERALD", Config.getInt("XpPerBlock.Emerald"));
+        hm.put("COAL", config.getInt(Route.from("XpPerBlock", "Coal")));
+        hm.put("IRON", config.getInt("XpPerBlock.Iron"));
+        hm.put("LAPIS", config.getInt("XpPerBlock.Lapis"));
+        hm.put("REDSTONE", config.getInt("XpPerBlock.Redstone"));
+        hm.put("GLOWING", config.getInt("XpPerBlock.Redstone"));
+        hm.put("GOLD", config.getInt("XpPerBlock.Gold"));
+        hm.put("DIAMOND", config.getInt("XpPerBlock.Diamond"));
+        hm.put("EMERALD", config.getInt("XpPerBlock.Emerald"));
         calculateXp(u);
 
 
@@ -80,7 +80,8 @@ public class XpFunctions {
             // if give value is equal to value from entry
             // print the corresponding key
             if(Objects.equals(entry.getKey(), blocklevel)) {
-                int sum = xp + entry.getValue();
+                Double multiplier = new PlayerData().getXpMultiplier(u);
+                double sum = (xp + entry.getValue() * multiplier);
                 levels.set("Levels." + u + ".xp", sum);
                 try {
                     net.goldmc.cosmicmining.Config.Config.setLevels(levels);
