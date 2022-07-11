@@ -40,6 +40,7 @@ public class BreakingFunctions {
                         b.setType(Material.getMaterial(split[0] + "_BLOCK"));
                     }
                 }
+                return 0;
             }
         }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
     }
