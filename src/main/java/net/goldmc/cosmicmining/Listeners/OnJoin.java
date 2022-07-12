@@ -37,23 +37,6 @@ public class OnJoin implements Listener {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        YamlDocument Config = net.goldmc.cosmicmining.Config.Config.getTheConfig();
-        /*
-        Config.getCustomConfig2().set("Players." + e.getPlayer().getUniqueId() + ".Username", p.getName());
-        Config.saveConfig2();
-        boolean miningUUID = Config.getCustomConfig3().contains("Levels." + e.getPlayer().getUniqueId().toString());
-        if(!(miningUUID)) {
-            Config.getCustomConfig3().set("Levels." + e.getPlayer().getUniqueId().toString() + ".level", 1);
-            Config.getCustomConfig3().set("Levels." + e.getPlayer().getUniqueId().toString() + ".xp", 0);
-            Config.saveConfig3();
-        }
-        int Level = Integer.parseInt(Config.getCustomConfig3().getString("Levels." + e.getPlayer().getUniqueId().toString()+ ".level"));
-        p.setLevel(Level);
-        //net.goldmc.cosmicmining.Database.MySqlDatabase.setPlayerData(u, Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".level"), Config.getCustomConfig3().getInt("Levels." + e.getPlayer().getUniqueId().toString() + ".xp"));
-        float xp = xpFunctions.calculateXp(u);
-        p.setExp(xp);
-
-         */
         e.getPlayer().setScoreboard(Scoreboards.prisonsScoreboard(e.getPlayer().getUniqueId()));
     }
 }

@@ -75,7 +75,7 @@ public class PlayerData {
         Double multiplier = 1.0;
         if(!Config.getTheConfig().getBoolean("MySql.use")) {
             if(Config.getXpBoosters().get(u.toString() + ".multiplier") != null) {
-                multiplier = (Double) Config.getXpBoosters().getDouble(u + ".multiplier");
+                multiplier = Config.getXpBoosters().getDouble(u + ".multiplier");
             }
         }
         return multiplier;

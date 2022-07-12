@@ -63,7 +63,7 @@
                                 </relocation>
                                 <relocation>
                                     <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                                    <shadedPattern>net.goldmc.cosmicmining.somenbtstuff</shadedPattern>
+                                    <shadedPattern>net.goldmc.cosmicmining.nbtapi</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -159,7 +159,6 @@
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
             <version>2.10.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
