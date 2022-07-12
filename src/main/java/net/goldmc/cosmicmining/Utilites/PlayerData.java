@@ -22,14 +22,10 @@ public class PlayerData {
 
     }
 
-    public int[] loadPlayerData(UUID uuid) {
-        int level = (int) Config.getLevels().get("Levels." + uuid.toString() + ".level");
-        int xp = (int) Config.getLevels().get("Levels." + uuid.toString() + ".xp");
-        return getInts(level, xp);
-    }
-
-    public static int[] getInts(int level, int xp) {
-        int[] data = new int[3];
+    public float[] loadPlayerData(UUID uuid) {
+        float level = Config.getLevels().getFloat("Levels." + uuid.toString() + ".level");
+        Float xp = Config.getLevels().getFloat("Levels." + uuid.toString() + ".xp");
+        float[] data = new float[3];
         data[0] = level;
         data[1] = xp;
         HashMap<IntRange, Integer> ranges = new HashMap<>();
@@ -50,8 +46,8 @@ public class PlayerData {
     }
 
     public boolean canBreakBlock(UUID uuid, int blockLevel) {
-        int[] data = loadPlayerData(uuid);
-        int breaklevel = data[2];
+        float[] data = loadPlayerData(uuid);
+        int breaklevel = (int) data[2];
         switch (breaklevel) {
             case 1:
                 return blockLevel <= 1;

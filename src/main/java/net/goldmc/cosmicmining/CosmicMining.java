@@ -18,6 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.goldmc.cosmicmining.Listeners.OnJoin;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public final class CosmicMining extends JavaPlugin {
 
@@ -83,7 +85,6 @@ public final class CosmicMining extends JavaPlugin {
         new BlockBreakHolder(this);
         createListeners();
         //setGameRules();
-        //TODO: Add config back
         System.out.println("CosmicMining Started up");
         getCommand("setxp").setExecutor(new setXp());
         getCommand("setlevel").setExecutor(new setLevel());

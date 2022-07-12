@@ -12,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.round;
+import static java.lang.Math.*;
 
 public class CosmicExpansion extends PlaceholderExpansion {
     YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
@@ -59,10 +58,10 @@ public class CosmicExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        int  xp = levels.getInt("Levels." + player.getUniqueId().toString() + ".xp");
+        float xp = levels.getFloat("Levels." + player.getUniqueId().toString() + ".xp");
         int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
         if(params.equalsIgnoreCase("level")) {
-            return String.valueOf(levels.getInt("Levels." + player.getUniqueId().toString() + ".level"));
+            return String.valueOf(levels.getFloat("Levels." + player.getUniqueId().toString() + ".level"));
         }
         if(params.equalsIgnoreCase("xp")) {
             DecimalFormat formatter = new DecimalFormat("#,###.00");
@@ -78,15 +77,15 @@ public class CosmicExpansion extends PlaceholderExpansion {
         if(params.equalsIgnoreCase("level_remaining_xp")) {
             BigInteger remainingXp = BigInteger.valueOf(-22222);
             if(range1.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) v - xp);
+                remainingXp = BigInteger.valueOf((long) ((long) v - xp));
             } else if(range2.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) v1 - xp);
+                remainingXp = BigInteger.valueOf((long) ((long) v1 - xp));
             } else if(range3.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) v2 - xp);
+                remainingXp = BigInteger.valueOf((long) ((long) v2 - xp));
             } else if(range4.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) v3 - xp);
+                remainingXp = BigInteger.valueOf((long) ((long) v3 - xp));
             } else if(range5.containsInteger(level)) {
-                remainingXp = BigInteger.valueOf((long) v4 - xp);
+                remainingXp = BigInteger.valueOf((long) ((long) v4 - xp));
             }
             String remainingxp;
             int amount = Integer.parseInt(String.valueOf(remainingXp));
