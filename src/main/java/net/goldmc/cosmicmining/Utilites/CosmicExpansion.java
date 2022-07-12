@@ -61,12 +61,15 @@ public class CosmicExpansion extends PlaceholderExpansion {
         float xp = levels.getFloat("Levels." + player.getUniqueId().toString() + ".xp");
         int level = levels.getInt("Levels." + player.getUniqueId().toString() + ".level");
         if(params.equalsIgnoreCase("level")) {
-            return String.valueOf(levels.getFloat("Levels." + player.getUniqueId().toString() + ".level"));
+            return String.valueOf(levels.getFloat("Levels." + player.getUniqueId().toString() + ".level")).replace(".0", "");
         }
         if(params.equalsIgnoreCase("xp")) {
             DecimalFormat formatter = new DecimalFormat("#,###.00");
             String xpstuff = formatter.format(xp);
             xpstuff = xpstuff.replace(".00", "");
+            if(xpstuff.length() == 0) {
+                xpstuff = "0";
+            }
             return xpstuff;
         }
         double v = 5 * (pow(level, 2)) + (50L * level) + 100;

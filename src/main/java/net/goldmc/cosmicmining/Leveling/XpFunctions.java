@@ -86,7 +86,7 @@ public class XpFunctions {
                     if (Objects.equals(entry.getKey(), blocklevel)) {
                         Double multiplier = playerData.getXpMultiplier(u);
                         double sum = (xp + entry.getValue() * multiplier);
-                        levels.set("Levels." + u + ".xp", (int) sum);
+                        levels.set("Levels." + u + ".xp", (float) sum);
                         try {
                             net.goldmc.cosmicmining.Config.Config.setLevels(levels);
                         } catch (IOException e) {
