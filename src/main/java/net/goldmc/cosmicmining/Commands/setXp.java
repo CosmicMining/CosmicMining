@@ -13,10 +13,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.UUID;
 
-import static java.lang.Double.parseDouble;
 import static java.lang.Long.parseLong;
 import static org.bukkit.Bukkit.getOfflinePlayer;
 import static org.bukkit.Bukkit.getPlayer;
@@ -38,10 +36,10 @@ public class setXp implements CommandExecutor {
                         //Config.saveConfig3();
                         if(sender instanceof Player) {
                             sender.sendMessage(ChatColor.GREEN + "Xp Saved");
-                            Scoreboards.prisonsScoreboard(p.getUniqueId());
+                            new Scoreboards(u).prisonsMiningScoreboard();
                         } else {
                             System.out.println("\u001B[32m" +"Xp Saved" + "\u001B[0m");
-                            Scoreboards.prisonsScoreboard(p.getUniqueId());
+                            new Scoreboards(u).prisonsMiningScoreboard();
                         }
                         return true;
                     } catch (final NumberFormatException e) {

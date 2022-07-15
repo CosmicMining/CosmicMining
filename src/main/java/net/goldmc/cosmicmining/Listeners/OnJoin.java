@@ -32,6 +32,6 @@ public class OnJoin implements Listener {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        e.getPlayer().setScoreboard(Scoreboards.prisonsScoreboard(e.getPlayer().getUniqueId()));
+        new Scoreboards(u).prisonsMiningScoreboard();
     }
 }

@@ -37,10 +37,10 @@ public class setLevel implements CommandExecutor {
                         //Config.saveConfig3();
                         if(sender instanceof Player) {
                             ((Player) sender).getPlayer().sendMessage(ChatColor.GREEN + "Level Saved");
-                            Scoreboards.prisonsScoreboard(p.getUniqueId());
+                            new Scoreboards(u).prisonsMiningScoreboard();
                         } else {
                             System.out.println("\u001B[32m" +"Level Saved" + "\u001B[0m");
-                            Scoreboards.prisonsScoreboard(p.getUniqueId());
+                            new Scoreboards(u).prisonsMiningScoreboard();
                         }
                         return true;
                     } catch (final NumberFormatException e) {

@@ -17,9 +17,13 @@ import java.util.UUID;
 import static java.lang.Math.pow;
 
 public class XpFunctions {
+    private final UUID u;
+    public XpFunctions(UUID u) {
+        this.u = u;
+    }
 
 
-    public float calculateXp(UUID u) {
+    public float calculateXp() {
         final float[] formula = {0f};
 
         final PlayerData loadPlayerData = new PlayerData();
@@ -74,7 +78,7 @@ public class XpFunctions {
                 hm.put("GOLD", config.getInt("XpPerBlock.Gold"));
                 hm.put("DIAMOND", config.getInt("XpPerBlock.Diamond"));
                 hm.put("EMERALD", config.getInt("XpPerBlock.Emerald"));
-                calculateXp(u);
+                calculateXp();
 
 
                 PlayerData playerData = new PlayerData();
@@ -99,16 +103,16 @@ public class XpFunctions {
         }.runTaskAsynchronously(CosmicMining.getPlugin(CosmicMining.class));
     }
 
-    public void checkLevelUp(UUID u) {
+    public void checkLevelUp() {
 
         YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
         Float xp = levels.getFloat("Levels." + u.toString() + ".xp");
         int level = levels.getInt("Levels." + u + ".level");
-        if (xp >= calculateXp(u)) {
+        if (xp >= calculateXp()) {
             int newlevel = level;
             //loop to 100
-            while (xp >= calculateXp(u)) {
-                if (xp < calculateXp(u)) {
+            while (xp >= calculateXp()) {
+                if (xp < calculateXp()) {
                     YamlDocument levels1 = net.goldmc.cosmicmining.Config.Config.getLevels();
                     levels1.set("Levels." + u + ".level", newlevel);
                     try {

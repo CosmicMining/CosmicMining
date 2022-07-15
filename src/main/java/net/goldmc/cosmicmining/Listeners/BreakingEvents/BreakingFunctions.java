@@ -45,7 +45,7 @@ public class BreakingFunctions {
     }
     public void blockChecks(Player p, String finalOrigblock, Block b, int blocklevel, boolean isoreblock) {
         PlayerData playerData = new PlayerData();
-        XpFunctions xpFunctions = new XpFunctions();
+        XpFunctions xpFunctions = new XpFunctions(p.getUniqueId());
         Map<String, Integer> hm
                 = new HashMap<String, Integer>();
         OnOreBlockBreak.oreandblocksmap(hm);
@@ -74,7 +74,7 @@ public class BreakingFunctions {
                             b.setType(Material.STONE);
                             xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
-                            Scoreboards.prisonsScoreboard(p.getUniqueId());
+                            new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
                             break;
                         } else {
                             ItemStack item;
@@ -86,7 +86,7 @@ public class BreakingFunctions {
                             b.setType(Material.STONE);
                             xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                             startRunnable(y, b, split);
-                            Scoreboards.prisonsScoreboard(p.getUniqueId());
+                            new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
                             break;
                         }
                     }
@@ -103,7 +103,7 @@ public class BreakingFunctions {
                 p.getInventory().addItem(item);
                 xpFunctions.giveXpForOre(p.getUniqueId(), split[0]);
                 startRunnable(y, b, split);
-                Scoreboards.prisonsScoreboard(p.getUniqueId());
+                new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
             }
         } else {
             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);

@@ -2,30 +2,29 @@ package net.goldmc.cosmicmining.Utilites;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.libs.kyori.adventure.platform.facet.Facet;
 import net.goldmc.cosmicmining.Config.Config;
-import net.goldmc.cosmicmining.CosmicMining;
 import net.goldmc.cosmicmining.Leveling.XpFunctions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.scoreboard.Scoreboard;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Scoreboards {
+    private final UUID uuid;
+
+    public Scoreboards(UUID u) {
+        this.uuid = u;
+    }
     static YamlDocument config = Config.getTheConfig();
     static String convert(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
-    public static Scoreboard prisonsScoreboard(UUID uuid) {
-        //Cosmic Prisons Scoreboard
+    public void prisonsMiningScoreboard() {
+        //Cosmic Prisons Mining Scoreboard
         if(config.getBoolean("Scoreboards.Enabled") && Objects.equals(config.get("Scoreboards.Mode").toString(), "Cosmic")) {
-            XpFunctions xpf = new XpFunctions();
+            XpFunctions xpf = new XpFunctions(uuid);
             String servername;
             if(config.get("Scoreboards.ServerName") == null) {
                 servername = "ExampleMC";
@@ -38,7 +37,7 @@ public class Scoreboards {
             } else {
                 servername = config.get("Scoreboards.ServerName").toString();
             }
-            xpf.checkLevelUp(uuid);
+            xpf.checkLevelUp();
             int xptax = 1;
             ScoreboardWrapper wrapper = new ScoreboardWrapper("Prisons");
             wrapper.setTitle("§6§l" + servername +  "§7- §b§lPrisons");
@@ -59,9 +58,6 @@ public class Scoreboards {
             if (Bukkit.getPlayer(uuid) != null) {
                 Bukkit.getPlayer(uuid).setScoreboard(wrapper.getScoreboard());
             }
-            return wrapper.getScoreboard();
-        } else {
-            return null;
         }
     }
 }
