@@ -71,11 +71,13 @@ public class BrokenBlock {
     }
 
     public void destroyBlockObject(){
-        sendBreakPacket(-1);
+        damage = 0;
+        sendBreakPacket(0);
     }
 
     public int getAnimation(){
-        return (int) (damage / time*11) - 1;
+        System.out.println((int) (damage / time *11) - 1);
+        return (int) (damage / time *11) - 1;
     }
 
     public void sendBreakPacket(int animation){
