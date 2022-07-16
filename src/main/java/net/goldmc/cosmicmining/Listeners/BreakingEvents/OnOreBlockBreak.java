@@ -37,7 +37,6 @@ public class OnOreBlockBreak implements Listener {
                             // print the corresponding key
                             if (Objects.equals(entry.getKey(), split[0])) {
                                 runnable.blockChecks(p, finalOrigblock, b, entry.getValue(), true);
-                                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999, 255, false, false), true);
                                 e.setCancelled(true);
                                 break;
                             }
@@ -55,7 +54,6 @@ public class OnOreBlockBreak implements Listener {
                             // print the corresponding key
                             if (Objects.equals(entry.getKey(), split[0])) {
                                 runnable.blockChecks(p, finalOrigblock, b, entry.getValue(), false);
-                                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999, 255, false, false), true);
                                 e.setCancelled(true);
                                 break;
                             }

@@ -3,6 +3,7 @@ package net.goldmc.cosmicmining;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import net.goldmc.cosmicmining.BlockBreak.listeners.BreakListeners;
 import net.goldmc.cosmicmining.Commands.CreateXpBooster;
 import net.goldmc.cosmicmining.Commands.setLevel;
 import net.goldmc.cosmicmining.Commands.setXp;
@@ -11,15 +12,12 @@ import net.goldmc.cosmicmining.Database.InitSql;
 import net.goldmc.cosmicmining.Database.MySqlDatabase;
 import net.goldmc.cosmicmining.Leveling.XpBoosters.XpBoosterRightClick;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.*;
-import net.goldmc.cosmicmining.Utilites.BlockBreakHolder;
 import net.goldmc.cosmicmining.Utilites.CosmicExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.goldmc.cosmicmining.Listeners.OnJoin;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public final class CosmicMining extends JavaPlugin {
 
@@ -39,6 +37,7 @@ public final class CosmicMining extends JavaPlugin {
 
 
     public void createListeners() {
+        Bukkit.getPluginManager().registerEvents(new BreakListeners(), this);
         Bukkit.getPluginManager().registerEvents(new OnJoin(), this);
         Bukkit.getPluginManager().registerEvents(new OnOreBlockBreak(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerInteract(), this);
@@ -81,8 +80,6 @@ public final class CosmicMining extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //add plugin to blockbreakholders
-        new BlockBreakHolder(this);
         createListeners();
         //setGameRules();
         System.out.println("CosmicMining Started up");

@@ -18,19 +18,9 @@ public class PacketSender {
                 new Vector3i(Loc.getBlockX(), Loc.getBlockY(), Loc.getBlockZ()),
                 DestroyStage
         );
-        fixBlock(Loc, player);
         sendPacketAsyncSilent(player, packet);
     }
 
-    public static void fixBlock(Location Loc, Player player) {
-        int id = player.getEntityId();
-        final WrapperPlayServerBlockBreakAnimation packet = new WrapperPlayServerBlockBreakAnimation(
-                id,
-                new Vector3i(Loc.getBlockX(), Loc.getBlockY(), Loc.getBlockZ()),
-                (byte) -1
-        );
-        sendPacketAsyncSilent(player, packet);
-    }
 
     public static void sendPacketAsyncSilent(Player player, PacketWrapper<?> packet) {
         Bukkit.getScheduler().runTaskAsynchronously(

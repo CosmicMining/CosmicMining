@@ -106,7 +106,6 @@ public class BreakingFunctions {
                 new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
             }
         } else {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 9999999,255, false, false), true);
             b.setType(Material.getMaterial(finalOrigblock));
         }
     }

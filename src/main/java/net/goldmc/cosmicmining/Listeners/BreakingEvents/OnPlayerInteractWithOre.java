@@ -1,8 +1,6 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
-import net.goldmc.cosmicmining.Utilites.BlockBreakHoldersHashMap;
 import net.goldmc.cosmicmining.Utilites.PlayerData;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +38,7 @@ public class OnPlayerInteractWithOre implements Listener {
                             PlayerData playerData = new PlayerData();
                             boolean canBreak = playerData.canBreakBlock(p.getUniqueId(), entry.getValue());
                             if(canBreak) {
-                                Objects.requireNonNull(BlockBreakHoldersHashMap.getBlockBreakHolder(p.getUniqueId())).addBlock(p, 2, b.getX(), b.getY(), b.getZ());
+                                //TODO: allow in new block break system
                             }
                             break;
                         }

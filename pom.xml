@@ -115,6 +115,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>8.8.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.retrooper.packetevents</groupId>
             <artifactId>spigot</artifactId>
             <version>2.0-d54baa4293-1</version>

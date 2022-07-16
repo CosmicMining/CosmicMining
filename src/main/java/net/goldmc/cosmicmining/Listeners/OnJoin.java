@@ -3,8 +3,6 @@ package net.goldmc.cosmicmining.Listeners;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import net.goldmc.cosmicmining.Config.Config;
-import net.goldmc.cosmicmining.Utilites.BlockBreakHolder;
-import net.goldmc.cosmicmining.Utilites.BlockBreakHoldersHashMap;
 import net.goldmc.cosmicmining.Utilites.Scoreboards;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +16,6 @@ public class OnJoin implements Listener {
     public static void joinEvent(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         UUID u = p.getUniqueId();
-        BlockBreakHoldersHashMap.registerBlockHolder(u, new BlockBreakHolder(u));
         YamlDocument levels;
         boolean miningUUID = false;
         try {
