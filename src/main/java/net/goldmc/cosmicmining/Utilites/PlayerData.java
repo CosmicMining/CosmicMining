@@ -3,10 +3,15 @@ package net.goldmc.cosmicmining.Utilites;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Database.MySqlDatabase;
+import net.goldmc.cosmicmining.Listeners.BreakingEvents.OnOreBlockBreak;
 import org.apache.commons.lang.math.IntRange;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.getOfflinePlayer;
@@ -22,7 +27,7 @@ public class PlayerData {
 
     }
 
-    public float[] loadPlayerData(UUID uuid) {
+    public float[] loadPlayerData() {
         float level = Config.getLevels().getFloat("Levels." + uuid.toString() + ".level");
         Float xp = Config.getLevels().getFloat("Levels." + uuid.toString() + ".xp");
         float[] data = new float[3];
@@ -45,8 +50,8 @@ public class PlayerData {
         return data;
     }
 
-    public boolean canBreakBlock(UUID uuid, int blockLevel) {
-        float[] data = loadPlayerData(uuid);
+    public boolean canBreakBlock(int blockLevel) {
+        float[] data = loadPlayerData();
         int breaklevel = (int) data[2];
         switch (breaklevel) {
             case 1:
@@ -67,16 +72,16 @@ public class PlayerData {
                 return false;
         }
     }
-    public double getXpMultiplier(UUID u) {
+    public double getXpMultiplier() {
         Double multiplier = 1.0;
         if(!Config.getTheConfig().getBoolean("MySql.use")) {
-            if(Config.getXpBoosters().get(u.toString() + ".multiplier") != null) {
-                multiplier = Config.getXpBoosters().getDouble(u + ".multiplier");
+            if(Config.getXpBoosters().get(uuid.toString() + ".multiplier") != null) {
+                multiplier = Config.getXpBoosters().getDouble(uuid + ".multiplier");
             }
         }
         return multiplier;
     }
-    public boolean updatePlayerData(UUID uuid, int level, long xp) {
+    public boolean updatePlayerData(int level, long xp) {
         if(Config.getTheConfig().getBoolean("MySql.use")) {
             new MySqlDatabase().updatePlayerData(uuid, level, xp);
         } else {
@@ -106,5 +111,33 @@ public class PlayerData {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static Map<String, Integer> hm
+            = new HashMap<String, Integer>();
+    public static Object[] canBreak(Player p, Block b) {
+        Object[] data = new Object[3];
+        if(p.hasPermission("cosmicmining.minearea")) {
+            if (b.getType() == Material.COAL_ORE || b.getType() == Material.IRON_ORE || b.getType() == Material.LAPIS_ORE || b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GLOWING_REDSTONE_ORE || b.getType() == Material.GOLD_ORE || b.getType() == Material.DIAMOND_ORE || b.getType() == Material.EMERALD_ORE || b.getType() == Material.COAL_BLOCK || b.getType() == Material.IRON_BLOCK || b.getType() == Material.LAPIS_BLOCK || b.getType() == Material.REDSTONE_BLOCK || b.getType() == Material.GOLD_BLOCK || b.getType() == Material.DIAMOND_BLOCK || b.getType() == Material.EMERALD_BLOCK) {
+                String finalOrigblock = b.getType().toString();
+                String[] split = finalOrigblock.split("_", 0);
+                OnOreBlockBreak.oreandblocksmap(hm);
+                for (Map.Entry<String, Integer> entry : hm.entrySet()) {
+                    if (Objects.equals(entry.getKey(), split[0])) {
+                        PlayerData playerData = new PlayerData(p.getUniqueId());
+                        boolean canBreak = playerData.canBreakBlock(entry.getValue());
+                        if(canBreak) {
+                            data[0] = true;
+                            data[1] = finalOrigblock;
+                            data[2] = entry.getValue();
+                            return data;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        data[0] = false;
+        return data;
     }
 }

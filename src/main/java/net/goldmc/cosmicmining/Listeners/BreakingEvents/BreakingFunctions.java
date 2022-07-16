@@ -44,7 +44,7 @@ public class BreakingFunctions {
         }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
     }
     public void blockChecks(Player p, String finalOrigblock, Block b, int blocklevel, boolean isoreblock) {
-        PlayerData playerData = new PlayerData();
+        PlayerData playerData = new PlayerData(p.getUniqueId());
         XpFunctions xpFunctions = new XpFunctions(p.getUniqueId());
         Map<String, Integer> hm
                 = new HashMap<String, Integer>();
@@ -52,7 +52,7 @@ public class BreakingFunctions {
         int y = ThreadLocalRandom.current().nextInt(0, 10);
         int x = ThreadLocalRandom.current().nextInt(1, 3);
         String[] split = finalOrigblock.split("_", 0);
-        boolean canBreak = playerData.canBreakBlock(p.getUniqueId(), blocklevel);
+        boolean canBreak = playerData.canBreakBlock(blocklevel);
         if(canBreak) {
             if(isoreblock) {
                 for(Map.Entry<String , Integer> entry: hm.entrySet()) {

@@ -3,6 +3,7 @@ package net.goldmc.cosmicmining.BlockBreak.listeners;
 import com.cryptomorin.xseries.XMaterial;
 import net.goldmc.cosmicmining.BlockBreak.Main;
 import net.goldmc.cosmicmining.BlockBreak.utls.Utls;
+import net.goldmc.cosmicmining.Utilites.PlayerData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -35,22 +36,27 @@ public class BreakListeners implements Listener {
         Player player = event.getPlayer();
 
         Block block = player.getTargetBlock(transparentBlocks, 5);
-        Location blockPosition = block.getLocation();
+        Object[] canBreak = PlayerData.canBreak(player, block);
+        if(Boolean.parseBoolean(canBreak[0].toString())) {
+            Location blockPosition = block.getLocation();
 
-        if(!Main.brokenBlocksService.isBrokenBlock(blockPosition))
-            Main.brokenBlocksService.createBrokenBlock(block, 30);
+            if(!Main.brokenBlocksService.isBrokenBlock(blockPosition))
+                Main.brokenBlocksService.createBrokenBlock(block, 30);
 
         /*
         Use player#getItemInHand for backwards compatibility
          */
-        ItemStack itemStack = player.getItemInHand();
+            ItemStack itemStack = player.getItemInHand();
 
-        double distanceX = blockPosition.getX() - player.getLocation().getX();
-        double distanceY = blockPosition.getY() - player.getLocation().getY();
-        double distanceZ = blockPosition.getZ() - player.getLocation().getZ();
+            double distanceX = blockPosition.getX() - player.getLocation().getX();
+            double distanceY = blockPosition.getY() - player.getLocation().getY();
+            double distanceZ = blockPosition.getZ() - player.getLocation().getZ();
 
-        if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
-        Utls.addSlowDig(event.getPlayer(), 300);
-        Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
+            if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
+            Utls.addSlowDig(event.getPlayer(), Integer.MAX_VALUE);
+            Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
+        } else {
+            Main.brokenBlocksService.resetBlock(block.getLocation());
+        }
     }
 }

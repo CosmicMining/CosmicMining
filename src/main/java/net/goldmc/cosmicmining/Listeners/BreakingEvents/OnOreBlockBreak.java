@@ -1,6 +1,7 @@
 package net.goldmc.cosmicmining.Listeners.BreakingEvents;
 
 import net.goldmc.cosmicmining.Leveling.enums;
+import net.goldmc.cosmicmining.Utilites.PlayerData;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,27 @@ public class OnOreBlockBreak implements Listener {
 
     Map<String, Integer> hm
             = new HashMap<String, Integer>();
+    private boolean isOre(Block b) {
+        for (enums.oreleveling ore : ores) {
+            //if the block is equal to the ore type
+            if (b.getType() == ore.getOre()) {
+                return true;
+            }
 
+        }
+        return false;
+    }
+
+    private boolean isOreBlock(Block b) {
+        for (enums.blockleveling block : blocks) {
+            //if the block is equal to the ore type
+            if (b.getType() == block.getBlock()) {
+                return true;
+            }
+
+        }
+        return false;
+    }
     @EventHandler
     public void playerOreBlockBreakEvent(BlockBreakEvent e)  {
         Block b = e.getBlock();
@@ -26,47 +47,21 @@ public class OnOreBlockBreak implements Listener {
 
         if(p.hasPermission("cosmicmining.minearea.mine")) {
             //Gets all ore types from enum
-            String finalOrigblock = b.getType().toString();
-            String[] split = finalOrigblock.split("_", 0);
-            if(Objects.equals(split[1], "BLOCK")) {
-                for(enums.blockleveling block : blocks) {
-                    if(b.getType() == block.getBlock()) {
-                        oreandblocksmap(hm);
-                        for (Map.Entry<String, Integer> entry : hm.entrySet()) {
-                            // if give value is equal to value from entry
-                            // print the corresponding key
-                            if (Objects.equals(entry.getKey(), split[0])) {
-                                runnable.blockChecks(p, finalOrigblock, b, entry.getValue(), true);
-                                e.setCancelled(true);
-                                break;
-                            }
-                        }
+            Object[] canBreak = PlayerData.canBreak(p, b);
+            if(Boolean.parseBoolean(canBreak[0].toString())) {
+                if(isOre(b)) {
+                    runnable.blockChecks(p, canBreak[1].toString(), b, (Integer) canBreak[2], false);
+                } else {
+                    if(isOreBlock(b)) {
+                        runnable.blockChecks(p, canBreak[1].toString(), b, (Integer) canBreak[2], true);
                     }
-                }
-            } else {
-                //for every ore type in enum
-                for (enums.oreleveling ore : ores) {
-                    //if the block is equal to the ore type
-                    if (b.getType() == ore.getOre()) {
-                        oreandblocksmap(hm);
-                        for (Map.Entry<String, Integer> entry : hm.entrySet()) {
-                            // if give value is equal to value from entry
-                            // print the corresponding key
-                            if (Objects.equals(entry.getKey(), split[0])) {
-                                runnable.blockChecks(p, finalOrigblock, b, entry.getValue(), false);
-                                e.setCancelled(true);
-                                break;
-                            }
-                        }
-                        break;
-                    }
-
                 }
             }
+            e.setCancelled(true);
         }
     }
 
-    static void oreandblocksmap(Map<String, Integer> hm) {
+    public static void oreandblocksmap(Map<String, Integer> hm) {
         hm.put("COAL", 1);
         hm.put("IRON", 2);
         hm.put("LAPIS", 3);

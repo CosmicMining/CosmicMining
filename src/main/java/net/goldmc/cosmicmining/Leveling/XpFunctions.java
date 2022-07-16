@@ -26,8 +26,8 @@ public class XpFunctions {
     public float calculateXp() {
         final float[] formula = {0f};
 
-        final PlayerData loadPlayerData = new PlayerData();
-        final float[] playerData = loadPlayerData.loadPlayerData(u);
+        final PlayerData loadPlayerData = new PlayerData(u);
+        final float[] playerData = loadPlayerData.loadPlayerData();
         assert playerData != null;
         final float level = playerData[0];
         //1-10
@@ -81,14 +81,14 @@ public class XpFunctions {
                 calculateXp();
 
 
-                PlayerData playerData = new PlayerData();
+                PlayerData playerData = new PlayerData(u);
                 YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
                 Float xp = levels.getFloat("Levels." + u.toString() + ".xp");
                 for (Map.Entry<String, Integer> entry : hm.entrySet()) {
                     // if give value is equal to value from entry
                     // print the corresponding key
                     if (Objects.equals(entry.getKey(), blocklevel)) {
-                        Double multiplier = playerData.getXpMultiplier(u);
+                        Double multiplier = playerData.getXpMultiplier();
                         double sum = (xp + entry.getValue() * multiplier);
                         levels.set("Levels." + u + ".xp", (float) sum);
                         try {
