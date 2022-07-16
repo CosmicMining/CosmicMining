@@ -1,14 +1,18 @@
 package net.goldmc.cosmicmining.Utilites;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Database.MySqlDatabase;
 import net.goldmc.cosmicmining.Listeners.BreakingEvents.OnOreBlockBreak;
 import org.apache.commons.lang.math.IntRange;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -98,18 +102,56 @@ public class PlayerData {
         return true;
     }
 
+    private void tickDown(Player p) {
+        if(Config.getXpBoosters().contains(p.getUniqueId() + ".duration")) {
+            //make bukkit runnable
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("CosmicMining"), () -> new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (p.isOnline()) {
+                        if (Config.getTheConfig().getBoolean("MySql.use")) {
+                            new MySqlDatabase().updatePlayerData(p.getUniqueId(), 0, 0);
+                        } else {
+                            if(Config.getXpBoosters().contains(p.getUniqueId() + ".duration")) {
+                                YamlDocument xpboosters = Config.getXpBoosters();
+                                Section s = xpboosters.getSection(p.getUniqueId().toString());
+                                if (s.getLong("duration") <= 0) {
+                                    Config.getXpBoosters().remove(p.getUniqueId().toString());
+                                    try {
+                                        Config.setXpBoosters(xpboosters);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    p.sendMessage("§cYour xp booster has expired.");
+                                    cancel();
+                                }
+                                s.set("duration", s.getInt("duration") - 1);
+                                try {
+                                    Config.setXpBoosters(xpboosters);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    }
+                }
+            }.runTaskAsynchronously(Bukkit.getPluginManager().getPlugin("CosmicMining")), 0, 20);
+        }
+    }
+
     public void registerXpBooster(Player p, double multiplier, int minutes) {
         if(Config.getTheConfig().getBoolean("MySql.use")) {
-            new MySqlDatabase().registerXpBooster(p, multiplier, minutes * 60L);
+            new MySqlDatabase().registerXpBooster(p, multiplier, minutes * 60L + 1);
         } else {
             YamlDocument xpBoosters = Config.getXpBoosters();
             xpBoosters.set(p.getUniqueId().toString() + ".multiplier", multiplier);
-            xpBoosters.set(p.getUniqueId().toString() + ".duration", minutes);
+            xpBoosters.set(p.getUniqueId().toString() + ".duration", minutes * 60 + 1);
             try {
                 Config.setXpBoosters(xpBoosters);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            tickDown(p);
         }
     }
 
