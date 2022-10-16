@@ -31,6 +31,7 @@ public class InitSql {
     }
 
     private static HikariDataSource source = null;
+    private static HikariDataSource longSource = null;
 
     public InitSql() {
         newConnection();
@@ -65,7 +66,39 @@ public class InitSql {
         return source;
     }
 
+    public static HikariDataSource newLongConnection() {
+        final HikariConfig hikari = new HikariConfig();
+
+        hikari.setPoolName("helper-sql-" + POOL_COUNTER.getAndIncrement());
+
+        hikari.addDataSourceProperty("serverName", getTheConfig().getString("MySql.address"));
+        hikari.addDataSourceProperty("port", getTheConfig().getInt("MySql.port"));
+        hikari.addDataSourceProperty("databaseName", getTheConfig().getString("MySql.database"));
+
+        hikari.setUsername(getTheConfig().getString("MySql.username"));
+        hikari.setPassword(getTheConfig().getString("MySql.password"));
+
+        hikari.setDataSourceProperties(PROPERTIES);
+        hikari.setJdbcUrl("jdbc:mysql://" + getTheConfig().getString("MySql.address") + ":" + getTheConfig().getInt("MySql.port") + "/" + getTheConfig().getString("MySql.database"));
+
+        hikari.setMaximumPoolSize(MAXIMUM_POOL_SIZE);
+        hikari.setMinimumIdle(MINIMUM_IDLE);
+
+        hikari.setMaxLifetime(MAX_LIFETIME);
+        hikari.setConnectionTimeout(TimeUnit.MINUTES.toMillis(1000));
+        hikari.setLeakDetectionThreshold(LEAK_DETECTION_THRESHOLD);
+
+        // ensure we use unicode (this calls #setProperties, a hack for the mariadb driver)
+        hikari.addDataSourceProperty("properties", "useUnicode=true;characterEncoding=utf8");
+
+        longSource = new HikariDataSource(hikari);
+        return longSource;
+    }
+
     public static HikariDataSource getSource() {
         return source;
+    }
+    public static HikariDataSource getLongSource() {
+        return longSource;
     }
 }

@@ -1,6 +1,7 @@
 package net.goldmc.cosmicmining.Leveling.XpBoosters;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import net.goldmc.cosmicmining.Config.Config;
 import net.goldmc.cosmicmining.Utilites.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,14 +22,16 @@ public class XpBoosterRightClick implements Listener {
                 if(itemNBTData.getBoolean("xpBooster")) {
                     if(itemNBTData.getInteger("duration") > 0) {
                         if(itemNBTData.getString("uuid") != null) {
-                            if(xpBoosterItemStack.getAmount() != 1) {
-                                event.getPlayer().sendMessage(ChatColor.GREEN + "You have used an Xp Booster");
-                                event.getPlayer().sendMessage( ChatColor.RED + "" + ChatColor.BOLD + "You had an illegally stacked booster that was removed from your inventory, the booster has still been added. This incident has been reported to the admins");
-                            } else {
-                                event.getPlayer().sendMessage(ChatColor.GREEN + "You have used an Xp Booster");
+                            if(!Config.getXpBoosters().contains(event.getPlayer().getUniqueId().toString())) {
+                                if(xpBoosterItemStack.getAmount() != 1) {
+                                    event.getPlayer().sendMessage(ChatColor.GREEN + "You have used an Xp Booster");
+                                    event.getPlayer().sendMessage( ChatColor.RED + "" + ChatColor.BOLD + "You had an illegally stacked booster that was removed from your inventory, the booster has still been added. This incident has been reported to the admins");
+                                } else {
+                                    event.getPlayer().sendMessage(ChatColor.GREEN + "You have used an Xp Booster");
+                                }
+                                new PlayerData().registerXpBooster(event.getPlayer(), itemNBTData.getDouble("multiplier"), itemNBTData.getInteger("duration"));
+                                event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
                             }
-                            new PlayerData().registerXpBooster(event.getPlayer(), itemNBTData.getDouble("multiplier"), itemNBTData.getInteger("duration"));
-                            event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
                         }
                     }
                 }

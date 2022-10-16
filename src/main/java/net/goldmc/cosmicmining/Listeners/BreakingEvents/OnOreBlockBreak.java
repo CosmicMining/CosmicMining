@@ -15,10 +15,7 @@ import java.util.*;
 public class OnOreBlockBreak implements Listener {
     ArrayList<enums.oreleveling> ores = new ArrayList<>(Arrays.asList(enums.oreleveling.values()));
     ArrayList<enums.blockleveling> blocks = new ArrayList<>(Arrays.asList(enums.blockleveling.values()));
-    BreakingFunctions runnable = new BreakingFunctions();
 
-    Map<String, Integer> hm
-            = new HashMap<String, Integer>();
     private boolean isOre(Block b) {
         for (enums.oreleveling ore : ores) {
             //if the block is equal to the ore type
@@ -45,23 +42,35 @@ public class OnOreBlockBreak implements Listener {
         Block b = e.getBlock();
         Player p = e.getPlayer();
 
-        if(p.hasPermission("cosmicmining.minearea.mine")) {
-            //Gets all ore types from enum
-            Object[] canBreak = PlayerData.canBreak(p, b);
-            if(Boolean.parseBoolean(canBreak[0].toString())) {
-                if(isOre(b)) {
-                    runnable.blockChecks(p, canBreak[1].toString(), b, (Integer) canBreak[2], false);
-                } else {
-                    if(isOreBlock(b)) {
-                        runnable.blockChecks(p, canBreak[1].toString(), b, (Integer) canBreak[2], true);
-                    }
-                }
-            }
+        if(!p.hasPermission("cosmicmining.minearea.mine")) {
+            return;
+        }
+
+        //Gets all ore types from enum
+        Integer canBreak = PlayerData.canBreak(p, b);
+
+
+        if(canBreak == null) {
+            return;
+        }
+
+        BreakingFunctions functions = new BreakingFunctions(canBreak, b, p, false, PlayerData.getBlockType(b));
+        if(isOre(b)) {
+            functions.setOreBlock(false);
+            functions.blockChecks();
+            e.setCancelled(true);
+            return;
+        }
+
+        if(isOreBlock(b)) {
+            functions.setOreBlock(true);
+            functions.blockChecks();
             e.setCancelled(true);
         }
     }
 
-    public static void oreandblocksmap(Map<String, Integer> hm) {
+    public static HashMap<String, Integer> getOreMap() {
+        HashMap<String, Integer> hm = new HashMap<>();
         hm.put("COAL", 1);
         hm.put("IRON", 2);
         hm.put("LAPIS", 3);
@@ -70,6 +79,7 @@ public class OnOreBlockBreak implements Listener {
         hm.put("GOLD", 5);
         hm.put("DIAMOND", 6);
         hm.put("EMERALD", 7);
+        return hm;
     }
 
 }

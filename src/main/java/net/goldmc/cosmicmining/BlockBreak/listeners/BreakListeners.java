@@ -54,7 +54,12 @@ public class BreakListeners implements Listener {
 
             if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
             Utls.addSlowDig(event.getPlayer(), Integer.MAX_VALUE);
-            Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
+            if(!itemStack.getType().name().replace("PICKAXE", "jhnbefrdjk").contains("jhnbefrdjk")) {
+                Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 0.4);
+            }
+            else {
+                Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
+            }
         } else {
             Main.brokenBlocksService.resetBlock(block.getLocation());
         }

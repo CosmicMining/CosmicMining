@@ -155,31 +155,35 @@ public class PlayerData {
         }
     }
 
-    private static Map<String, Integer> hm
-            = new HashMap<String, Integer>();
-    public static Object[] canBreak(Player p, Block b) {
-        Object[] data = new Object[3];
-        if(p.hasPermission("cosmicmining.minearea")) {
-            if (b.getType() == Material.COAL_ORE || b.getType() == Material.IRON_ORE || b.getType() == Material.LAPIS_ORE || b.getType()==Material.REDSTONE_ORE || b.getType()==Material.GLOWING_REDSTONE_ORE || b.getType() == Material.GOLD_ORE || b.getType() == Material.DIAMOND_ORE || b.getType() == Material.EMERALD_ORE || b.getType() == Material.COAL_BLOCK || b.getType() == Material.IRON_BLOCK || b.getType() == Material.LAPIS_BLOCK || b.getType() == Material.REDSTONE_BLOCK || b.getType() == Material.GOLD_BLOCK || b.getType() == Material.DIAMOND_BLOCK || b.getType() == Material.EMERALD_BLOCK) {
-                String finalOrigblock = b.getType().toString();
-                String[] split = finalOrigblock.split("_", 0);
-                OnOreBlockBreak.oreandblocksmap(hm);
-                for (Map.Entry<String, Integer> entry : hm.entrySet()) {
-                    if (Objects.equals(entry.getKey(), split[0])) {
-                        PlayerData playerData = new PlayerData(p.getUniqueId());
-                        boolean canBreak = playerData.canBreakBlock(entry.getValue());
-                        if(canBreak) {
-                            data[0] = true;
-                            data[1] = finalOrigblock;
-                            data[2] = entry.getValue();
-                            return data;
-                        }
-                        break;
-                    }
-                }
-            }
+    public static Integer canBreak(Player p, Block b) {
+        Map<String, Integer> hm = OnOreBlockBreak.getOreMap();
+        Integer blockLevel = hm.get(getBlockType(b));
+
+        if(!p.hasPermission("cosmicmining.minearea")) {
+            return null;
         }
-        data[0] = false;
-        return data;
+
+        PlayerData playerData = new PlayerData(p.getUniqueId());
+        boolean canBreak = playerData.canBreakBlock(blockLevel);
+        if(canBreak) {
+            return blockLevel;
+        }
+
+        return null;
+    }
+
+    public static String getBlockType(Block b) {
+        if (b.getType() == Material.GLOWING_REDSTONE_ORE) {
+            return "REDSTONE";
+        }
+
+        return b.getType().toString().split("_")[0];
+    }
+
+    public static boolean isOreOrBlock(Block b) {
+        if (b.getType() == Material.GLOWING_REDSTONE_ORE) {
+            return true;
+        }
+        return b.getType().toString().split("_")[1].equals("ORE") || b.getType().toString().split("_")[1].equals("BLOCK");
     }
 }
