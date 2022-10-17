@@ -13,8 +13,6 @@ import org.bukkit.material.Dye;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -24,25 +22,19 @@ public class BreakingFunctions {
     private final Block b;
     private final Player p;
     private boolean isOreBlock;
-    private final String finalOrigblock;
+    private final String originalBlockType;
     private final int y = ThreadLocalRandom.current().nextInt(0, 10);
     private final int x = ThreadLocalRandom.current().nextInt(1, 3);
     private final XpFunctions xp;
+    private final Material blockMaterial;
 
-    public BreakingFunctions(int blocklevel, Block b, Player player, boolean isOreBlock, String finalOrigblock) {
-        this.blocklevel = blocklevel;
+    public BreakingFunctions(int blockLevel, Block b, Player player, boolean isOreBlock, String theBlock) {
+        this.blocklevel = blockLevel;
         this.b = b;
         this.p = player;
         this.isOreBlock = isOreBlock;
-        this.finalOrigblock = finalOrigblock;
-        xp = new XpFunctions(p.getUniqueId());
-    }
-
-    public BreakingFunctions(int blocklevel, Block b, Player player, String finalOrigblock) {
-        this.blocklevel = blocklevel;
-        this.b = b;
-        this.p = player;
-        this.finalOrigblock = finalOrigblock;
+        this.originalBlockType = theBlock;
+        this.blockMaterial = b.getType();
         xp = new XpFunctions(p.getUniqueId());
     }
 
@@ -59,71 +51,93 @@ public class BreakingFunctions {
             }
         }.runTaskLater(Bukkit.getPluginManager().getPlugin("CosmicMining"), 40);
     }
-    public void blockChecks() {
+    /**
+     * Checks if the block is a mineable block then runs all the functions to turn it into stone then back to the ore
+     */
+    public void runMiningBlock() {
         PlayerData playerData = new PlayerData(p.getUniqueId());
-
-        String[] split = finalOrigblock.split("_");
         boolean canBreak = playerData.canBreakBlock(blocklevel);
 
+        //Check if the user can break the block
         if (!canBreak) {
-            b.setType(Material.getMaterial(finalOrigblock));
+            b.setType(Material.getMaterial(originalBlockType));
             return;
         }
 
+
+        //If it is an ore block then run the oreblock function
         if(isOreBlock) {
             oreBlock();
-            return;
+        } else {
+            //If it is an ore then run the ore function
+            ore();
         }
+    }
 
+    private void ore() {
         ItemStack item;
         b.setType(Material.STONE);
-        if(Objects.equals(split[0], "GLOWING")) {
+        if(blockMaterial.toString().contains("GLOWING")) {
             item = new ItemStack(Material.REDSTONE_ORE);
         } else {
-            item = new ItemStack(Material.getMaterial(finalOrigblock));
+            item = new ItemStack(Material.getMaterial(originalBlockType));
         }
         item.setAmount(x);
         p.getInventory().addItem(item);
-        xp.giveXpForOre(p.getUniqueId(), split[0]);
-        startRunnable();
-        new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
     }
 
     private void oreBlock() {
-        for(Map.Entry<String , Integer> entry: blocks.entrySet()) {
-            // if you give value is equal to value from entry
-            // print the corresponding key
-            if(Objects.equals(entry.getValue(), blocklevel)) {
-                if(blocklevel != 3) {
-                    if(!(Objects.equals(entry.getKey(), "GOLD") || Objects.equals(entry.getKey(), "IRON"))) {
-                        ItemStack item;
-                        item = new ItemStack(Material.getMaterial(entry.getKey()));
-                        item.setAmount(x);
-                        p.getInventory().addItem(item);
-                    } else {
-                        ItemStack item;
-                        item = new ItemStack(Material.getMaterial(entry.getKey() + "_INGOT"));
-                        item.setAmount(x);
-                        p.getInventory().addItem(item);
-                    }
-                } else {
-                    ItemStack item;
-                    Dye l = new Dye();
-                    l.setColor(DyeColor.BLUE);
-                    item = l.toItemStack(x);
-                    item.setAmount(x);
-                    p.getInventory().addItem(item);
-                }
-                b.setType(Material.STONE);
-                xp.giveXpForOre(p.getUniqueId(), PlayerData.getBlockType(b));
-                startRunnable();
-                new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
-                break;
-            }
+        //Get the blocks break level
+        Integer blockLevel = PlayerData.canBreak(p, b);
+
+        //If the block level is null then return, it is not a minable block
+        if (blockLevel == null) {
+            b.setType(Material.getMaterial(originalBlockType));
+            return;
         }
+
+        //Check for lapis blocks since lapis is a dye
+        if (b.getType() == Material.LAPIS_BLOCK) {
+            ItemStack item;
+            Dye l = new Dye();
+            l.setColor(DyeColor.BLUE);
+            item = l.toItemStack(x);
+            item.setAmount(x);
+            p.getInventory().addItem(item);
+            setStoneGiveXp();
+            return;
+        }
+
+        //Check for ingots since they are not just the name
+        if (b.getType().toString().contains("GOLD") || b.getType().toString().contains("IRON")) {
+            ItemStack item;
+            item = new ItemStack(Material.getMaterial(PlayerData.getBlockType(b) + "_INGOT"));
+            item.setAmount(x);
+            p.getInventory().addItem(item);
+        } else {
+            //If it is not a lapis block or an ingot then just give the name
+            ItemStack item;
+            item = new ItemStack(Material.getMaterial(PlayerData.getBlockType(b)));
+            item.setAmount(x);
+            p.getInventory().addItem(item);
+        }
+
+
+        setStoneGiveXp();
     }
 
     public void setOreBlock(boolean oreBlock) {
         isOreBlock = oreBlock;
+    }
+
+    /**
+     * Sets the block to stone and gives the player xp
+     * This will start a runnable which will turn the block back to stone in the config's set amount of seconds
+     */
+    private void setStoneGiveXp() {
+        b.setType(Material.STONE);
+        xp.giveXpForOre(p.getUniqueId(), PlayerData.getStringBlockType(originalBlockType));
+        startRunnable();
+        new Scoreboards(p.getUniqueId()).prisonsMiningScoreboard();
     }
 }

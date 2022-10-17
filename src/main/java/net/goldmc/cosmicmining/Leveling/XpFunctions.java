@@ -68,36 +68,34 @@ public class XpFunctions {
             @Override
             public void run() {
                 YamlDocument config = net.goldmc.cosmicmining.Config.Config.getTheConfig();
-                Map<String, Integer> hm
-                        = new HashMap<>();
-                hm.put("COAL", config.getInt(Route.from("XpPerBlock", "Coal")));
-                hm.put("IRON", config.getInt("XpPerBlock.Iron"));
-                hm.put("LAPIS", config.getInt("XpPerBlock.Lapis"));
-                hm.put("REDSTONE", config.getInt("XpPerBlock.Redstone"));
-                hm.put("GLOWING", config.getInt("XpPerBlock.Redstone"));
-                hm.put("GOLD", config.getInt("XpPerBlock.Gold"));
-                hm.put("DIAMOND", config.getInt("XpPerBlock.Diamond"));
-                hm.put("EMERALD", config.getInt("XpPerBlock.Emerald"));
+                Map<String, Integer> xpMap = new HashMap<>();
+                xpMap.put("COAL", config.getInt(Route.from("XpPerBlock", "Coal")));
+                xpMap.put("IRON", config.getInt("XpPerBlock.Iron"));
+                xpMap.put("LAPIS", config.getInt("XpPerBlock.Lapis"));
+                xpMap.put("REDSTONE", config.getInt("XpPerBlock.Redstone"));
+                xpMap.put("GLOWING", config.getInt("XpPerBlock.Redstone"));
+                xpMap.put("GOLD", config.getInt("XpPerBlock.Gold"));
+                xpMap.put("DIAMOND", config.getInt("XpPerBlock.Diamond"));
+                xpMap.put("EMERALD", config.getInt("XpPerBlock.Emerald"));
                 calculateXp();
 
 
                 PlayerData playerData = new PlayerData(u);
                 YamlDocument levels = net.goldmc.cosmicmining.Config.Config.getLevels();
                 Float xp = levels.getFloat("Levels." + u.toString() + ".xp");
-                for (Map.Entry<String, Integer> entry : hm.entrySet()) {
-                    // if give value is equal to value from entry
-                    // print the corresponding key
-                    if (Objects.equals(entry.getKey(), blocklevel)) {
-                        Double multiplier = playerData.getXpMultiplier();
-                        double sum = (xp + entry.getValue() * multiplier);
-                        levels.set("Levels." + u + ".xp", (float) sum);
-                        try {
-                            net.goldmc.cosmicmining.Config.Config.setLevels(levels);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return;
-                    }
+                Integer blockXp = xpMap.get(blocklevel);
+
+                if (blockXp == null) {
+                    return;
+                }
+
+                Double multiplier = playerData.getXpMultiplier();
+                double sum = (xp + blockXp * multiplier);
+                levels.set("Levels." + u + ".xp", (float) sum);
+                try {
+                    net.goldmc.cosmicmining.Config.Config.setLevels(levels);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }.runTaskAsynchronously(CosmicMining.getPlugin(CosmicMining.class));

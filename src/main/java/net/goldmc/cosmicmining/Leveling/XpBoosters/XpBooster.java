@@ -21,19 +21,24 @@ public class XpBooster {
     }
 
     public ItemStack getItem() {
-        NBTItem nbti = new NBTItem(new ItemStack(Material.EMERALD));
-        nbti.setBoolean("xpBooster", true);
-        nbti.setDouble("multiplier", multiplier);
-        nbti.setInteger("duration", minutes);
-        nbti.setString("uuid", UUID.randomUUID().toString());
-        ItemStack item = nbti.getItem();
+        NBTItem nbtItem = new NBTItem(new ItemStack(Material.EMERALD));
+        nbtItem.setBoolean("xpBooster", true);
+        nbtItem.setDouble("multiplier", multiplier);
+        nbtItem.setInteger("duration", minutes);
+        nbtItem.setString("uuid", UUID.randomUUID().toString());
+
+        ItemStack item = nbtItem.getItem();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.GREEN + String.valueOf(multiplier) + "x Xp Booster");
         List<String> lore = new ArrayList<>();
+
+        meta.setDisplayName(ChatColor.GREEN + String.valueOf(multiplier) + "x Xp Booster");
+
         lore.add(ChatColor.GRAY + "Duration: " + minutes + " minutes");
         lore.add(ChatColor.GRAY + "Right click to use");
+
         meta.setLore(lore);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
         item.setItemMeta(meta);
         item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
         return item;

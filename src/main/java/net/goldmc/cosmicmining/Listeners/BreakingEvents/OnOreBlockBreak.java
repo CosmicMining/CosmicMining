@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -57,14 +55,14 @@ public class OnOreBlockBreak implements Listener {
         BreakingFunctions functions = new BreakingFunctions(canBreak, b, p, false, PlayerData.getBlockType(b));
         if(isOre(b)) {
             functions.setOreBlock(false);
-            functions.blockChecks();
+            functions.runMiningBlock();
             e.setCancelled(true);
             return;
         }
 
         if(isOreBlock(b)) {
             functions.setOreBlock(true);
-            functions.blockChecks();
+            functions.runMiningBlock();
             e.setCancelled(true);
         }
     }

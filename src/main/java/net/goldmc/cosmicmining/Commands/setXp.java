@@ -22,36 +22,28 @@ import static org.bukkit.Bukkit.getPlayer;
 public class setXp implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player || sender instanceof ConsoleCommandSender) {
-            if(args.length == 2) {
-                if (Bukkit.getOfflinePlayer(UUID.fromString(args[0])) != null) {
-                    try {
-                        long xp = parseLong(args[1]);
-                        Player p = getPlayer(UUID.fromString(args[0]));
-                        UUID u = UUID.fromString(args[0]);
-                        //Config.getCustomConfig3().set("Levels." + u.toString() + ".xp", xp);
-                        YamlDocument levels = Config.getLevels();
-                        levels.set("Levels." + u.toString() + ".xp", xp);
-                        Config.setLevels(levels);
-                        //Config.saveConfig3();
-                        if(sender instanceof Player) {
-                            sender.sendMessage(ChatColor.GREEN + "Xp Saved");
-                            new Scoreboards(u).prisonsMiningScoreboard();
-                        } else {
-                            System.out.println("\u001B[32m" +"Xp Saved" + "\u001B[0m");
-                            new Scoreboards(u).prisonsMiningScoreboard();
-                        }
-                        return true;
-                    } catch (final NumberFormatException e) {
-                        return false;
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+
+
+        try {
+            long xp = parseLong(args[1]);
+            UUID u = UUID.fromString(args[0]);
+            YamlDocument levels = Config.getLevels();
+
+            levels.set("Levels." + u.toString() + ".xp", xp);
+            Config.setLevels(levels);
+
+            if(sender instanceof Player) {
+                sender.sendMessage(ChatColor.GREEN + "Xp Saved");
+                new Scoreboards(u).prisonsMiningScoreboard();
             } else {
-                return false;
+                System.out.println("\u001B[32m" +"Xp Saved" + "\u001B[0m");
+                new Scoreboards(u).prisonsMiningScoreboard();
             }
+            return true;
+        } catch (final NumberFormatException e) {
+            return false;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 }

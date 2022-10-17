@@ -186,4 +186,11 @@ public class PlayerData {
         }
         return b.getType().toString().split("_")[1].equals("ORE") || b.getType().toString().split("_")[1].equals("BLOCK");
     }
+
+    public static String getStringBlockType(String b) {
+        if (b.equals("GLOWING_REDSTONE_ORE")) {
+            return "REDSTONE";
+        }
+        return b.split("_")[0];
+    }
 }

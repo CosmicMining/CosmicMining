@@ -36,32 +36,36 @@ public class BreakListeners implements Listener {
         Player player = event.getPlayer();
 
         Block block = player.getTargetBlock(transparentBlocks, 5);
-        Object[] canBreak = PlayerData.canBreak(player, block);
-        if(Boolean.parseBoolean(canBreak[0].toString())) {
-            Location blockPosition = block.getLocation();
+        Integer canBreak = PlayerData.canBreak(player, block);
 
-            if(!Main.brokenBlocksService.isBrokenBlock(blockPosition))
-                Main.brokenBlocksService.createBrokenBlock(block, 30);
+        if (canBreak == null) {
+            Main.brokenBlocksService.resetBlock(block.getLocation());
+            return;
+        }
+
+        Location blockPosition = block.getLocation();
+
+        if(!Main.brokenBlocksService.isBrokenBlock(blockPosition))
+            Main.brokenBlocksService.createBrokenBlock(block, 30);
 
         /*
         Use player#getItemInHand for backwards compatibility
          */
-            ItemStack itemStack = player.getItemInHand();
+        ItemStack itemStack = player.getItemInHand();
 
-            double distanceX = blockPosition.getX() - player.getLocation().getX();
-            double distanceY = blockPosition.getY() - player.getLocation().getY();
-            double distanceZ = blockPosition.getZ() - player.getLocation().getZ();
+        double distanceX = blockPosition.getX() - player.getLocation().getX();
+        double distanceY = blockPosition.getY() - player.getLocation().getY();
+        double distanceZ = blockPosition.getZ() - player.getLocation().getZ();
 
-            if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
-            Utls.addSlowDig(event.getPlayer(), Integer.MAX_VALUE);
-            if(!itemStack.getType().name().replace("PICKAXE", "jhnbefrdjk").contains("jhnbefrdjk")) {
-                Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 0.4);
-            }
-            else {
-                Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
-            }
-        } else {
-            Main.brokenBlocksService.resetBlock(block.getLocation());
+        if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
+        Utls.addSlowDig(event.getPlayer(), Integer.MAX_VALUE);
+        if(!itemStack.getType().name().contains("PICKAXE")) {
+            Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 0.4);
+            return;
         }
+
+
+        //TODO: Pickaxe level and enchant logic
+        Main.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
     }
 }

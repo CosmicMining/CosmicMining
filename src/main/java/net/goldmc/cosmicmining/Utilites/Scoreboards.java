@@ -23,6 +23,7 @@ public class Scoreboards {
     }
     public void prisonsMiningScoreboard() {
         //Cosmic Prisons Mining Scoreboard
+        //TODO: Add xp tax
         if(config.getBoolean("Scoreboards.Enabled") && Objects.equals(config.get("Scoreboards.Mode").toString(), "Cosmic")) {
             XpFunctions xpf = new XpFunctions(uuid);
             String servername;
