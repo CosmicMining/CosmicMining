@@ -1,0 +1,43 @@
+config-version: 0.1.2
+
+
+Scoreboards:
+  Enabled: true
+  Mode: Cosmic #Currently only mode available
+  ServerName: ExampleMC
+#Xp per block
+#You currently cannot specify any custom blocks for xp this will be added later
+XpPerBlock:
+  Coal: 1
+  Iron: 6
+  Lapis: 16
+  Redstone: 70
+  Gold: 253
+  Diamond: 1000
+  Emerald: 5000
+#If you want to use a different chance for refined blocks per ore
+UseDifferentRefinedChance: false
+#Chance for refined ores
+RefinedChance: 10
+#XpFormula Stuff
+#DO NOT EDIT THIS IF YOU DO NOT KNOW WHAT YOUR DOING
+#CustomXpFormula: false
+#XpFormula: 2*3
+#Custom Enchants
+CustomEnchants: true
+#Xp Booster
+XpBoosters: true #Not public yet
+#Xp bottles
+XpBottles: true
+#Mine anywhere (otherwise require CosmicMining.miningarea to mine ores)
+MineAnywhere: false
+
+#Mysql Storage
+MySql:
+  use: false
+  address: 'localhost'
+  port: 3306
+  database: 'examplemc'
+  table-prefix: 'cosmicmining' #Changing this will use a different table which can break already existing data
+  username: "root"
+  password: "root"
