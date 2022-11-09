@@ -1,0 +1,18 @@
+name: CosmicMining
+version: '${project.version}'
+main: net.goldmc.cosmicmining.CosmicMining
+depend: [PlaceholderAPI]
+api-version: 1.13
+commands:
+  setxp:
+    description: Gives cosmic mining xp to the player
+    usage: /<command> <player/uuid> <xp>
+    permission: cosmicmining.givexp
+  setlevel:
+    description: Set the players cosmic mining level
+    usage: /<command> <player/uuid> <level>
+    permission: cosmicmining.setlevel
+  xpbooster:
+    description: Give the player a xp booster
+    usage: /<command> <mulitplier> <duration>
+    permission: cosmicmining.xpboostercommand
